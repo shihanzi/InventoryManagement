@@ -22,7 +22,7 @@ namespace InventoryManagement
             {
                 this.Hide();
                 FrmDashboard frm = new FrmDashboard();
-                frm.Show();  
+                frm.Show();
             }
         }
     }

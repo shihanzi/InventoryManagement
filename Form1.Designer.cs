@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            btnAddItem = new Button();
+            label1 = new Label();
             btnLogout = new Button();
             dgvStockDetails = new DataGridView();
-            label1 = new Label();
-            btnAddItem = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStockDetails).BeginInit();
             SuspendLayout();
@@ -47,25 +47,17 @@
             panel1.Size = new Size(253, 656);
             panel1.TabIndex = 0;
             // 
-            // btnLogout
+            // btnAddItem
             // 
-            btnLogout.AutoSize = true;
-            btnLogout.Location = new Point(90, 603);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(75, 25);
-            btnLogout.TabIndex = 1;
-            btnLogout.Text = "Logout";
-            btnLogout.UseVisualStyleBackColor = true;
-            btnLogout.Click += btnLogout_Click;
-            // 
-            // dgvStockDetails
-            // 
-            dgvStockDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStockDetails.Location = new Point(272, 162);
-            dgvStockDetails.Name = "dgvStockDetails";
-            dgvStockDetails.RowTemplate.Height = 25;
-            dgvStockDetails.Size = new Size(1070, 482);
-            dgvStockDetails.TabIndex = 1;
+            btnAddItem.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            btnAddItem.AutoSize = true;
+            btnAddItem.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAddItem.Location = new Point(64, 133);
+            btnAddItem.Name = "btnAddItem";
+            btnAddItem.Size = new Size(126, 53);
+            btnAddItem.TabIndex = 3;
+            btnAddItem.Text = "Add Item";
+            btnAddItem.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -78,25 +70,36 @@
             label1.Text = "Inventory \r\nManagement";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
-            // btnAddItem
+            // btnLogout
             // 
-            btnAddItem.AutoSize = true;
-            btnAddItem.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAddItem.Location = new Point(64, 133);
-            btnAddItem.Name = "btnAddItem";
-            btnAddItem.Size = new Size(126, 53);
-            btnAddItem.TabIndex = 3;
-            btnAddItem.Text = "Add Item";
-            btnAddItem.UseVisualStyleBackColor = true;
+            btnLogout.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnLogout.AutoSize = true;
+            btnLogout.Location = new Point(90, 603);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(75, 25);
+            btnLogout.TabIndex = 1;
+            btnLogout.Text = "Logout";
+            btnLogout.UseVisualStyleBackColor = true;
+            btnLogout.Click += btnLogout_Click;
             // 
-            // Form1
+            // dgvStockDetails
+            // 
+            dgvStockDetails.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvStockDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvStockDetails.Location = new Point(272, 162);
+            dgvStockDetails.Name = "dgvStockDetails";
+            dgvStockDetails.RowTemplate.Height = 25;
+            dgvStockDetails.Size = new Size(1070, 482);
+            dgvStockDetails.TabIndex = 1;
+            // 
+            // FrmDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1364, 656);
             Controls.Add(dgvStockDetails);
             Controls.Add(panel1);
-            Name = "Form1";
+            Name = "FrmDashboard";
             Text = "Dashboard";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

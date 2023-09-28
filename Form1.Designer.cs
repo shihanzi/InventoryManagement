@@ -29,18 +29,19 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            btnAddCategory = new Button();
             btnAddUser = new Button();
             btnAddItem = new Button();
             label1 = new Label();
             btnLogout = new Button();
             dgvStockDetails = new DataGridView();
-            btnAddCategory = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStockDetails).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel1.BackColor = SystemColors.ControlDark;
             panel1.Controls.Add(btnAddCategory);
             panel1.Controls.Add(btnAddUser);
@@ -51,6 +52,19 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(253, 656);
             panel1.TabIndex = 0;
+            // 
+            // btnAddCategory
+            // 
+            btnAddCategory.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            btnAddCategory.AutoSize = true;
+            btnAddCategory.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAddCategory.Location = new Point(64, 204);
+            btnAddCategory.Name = "btnAddCategory";
+            btnAddCategory.Size = new Size(126, 53);
+            btnAddCategory.TabIndex = 5;
+            btnAddCategory.Text = "Add Category";
+            btnAddCategory.UseVisualStyleBackColor = true;
+            btnAddCategory.Click += btnAddCategory_Click;
             // 
             // btnAddUser
             // 
@@ -109,18 +123,6 @@
             dgvStockDetails.RowTemplate.Height = 25;
             dgvStockDetails.Size = new Size(1070, 482);
             dgvStockDetails.TabIndex = 1;
-            // 
-            // btnAddCategory
-            // 
-            btnAddCategory.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            btnAddCategory.AutoSize = true;
-            btnAddCategory.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAddCategory.Location = new Point(64, 204);
-            btnAddCategory.Name = "btnAddCategory";
-            btnAddCategory.Size = new Size(126, 53);
-            btnAddCategory.TabIndex = 5;
-            btnAddCategory.Text = "Add Category";
-            btnAddCategory.UseVisualStyleBackColor = true;
             // 
             // FrmDashboard
             // 

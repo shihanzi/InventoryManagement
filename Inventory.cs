@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,9 @@ namespace InventoryManagement
         public Inventory()
         {
             InitializeComponent();
+            LoadCategoriesToComboBox();
             lblCurrentDate.Text = DateTime.Now.ToShortDateString();
+            int selectedCategoryId = (int)cmbCategory.SelectedValue;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -78,6 +81,30 @@ namespace InventoryManagement
                 textBox.Text = cleanText;
                 textBox.SelectionStart = Math.Max(0, cursorPosition); // Ensure it doesn't go to a negative position.
             }
+        }
+
+        private void Inventory_Load(object sender, EventArgs e)
+        {
+
+        }
+        private DataTable GetCategories()
+        {
+            MyDb db = new MyDb();
+                db.OpenConnection();
+                using (SqlCommand cmd = new SqlCommand("SELECT CategoryId, CategoryName FROM Categories", db.Connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
+        }
+        private void LoadCategoriesToComboBox()
+        {
+            DataTable categories = GetCategories();
+            cmbCategory.DataSource = categories;
+            cmbCategory.DisplayMember = "CategoryName";
+            cmbCategory.ValueMember = "CategoryId"; // Using ID as the value now
         }
     }
 }

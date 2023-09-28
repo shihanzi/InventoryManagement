@@ -38,7 +38,7 @@
             lblItemName = new Label();
             txtItemName = new TextBox();
             lblCategory = new Label();
-            comboBox1 = new ComboBox();
+            cmbCategory = new ComboBox();
             lblQuantity = new Label();
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
@@ -156,14 +156,14 @@
             lblCategory.TabIndex = 10;
             lblCategory.Text = "Category";
             // 
-            // comboBox1
+            // cmbCategory
             // 
-            comboBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(168, 203);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(323, 29);
-            comboBox1.TabIndex = 11;
+            cmbCategory.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            cmbCategory.FormattingEnabled = true;
+            cmbCategory.Location = new Point(168, 203);
+            cmbCategory.Name = "cmbCategory";
+            cmbCategory.Size = new Size(323, 29);
+            cmbCategory.TabIndex = 11;
             // 
             // lblQuantity
             // 
@@ -299,7 +299,7 @@
             Controls.Add(label1);
             Controls.Add(numericUpDown1);
             Controls.Add(lblQuantity);
-            Controls.Add(comboBox1);
+            Controls.Add(cmbCategory);
             Controls.Add(lblCategory);
             Controls.Add(txtItemName);
             Controls.Add(lblItemName);
@@ -312,6 +312,7 @@
             Controls.Add(btnSave);
             Name = "Inventory";
             Text = "Inventory";
+            Load += Inventory_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -329,7 +330,7 @@
         private Label lblItemName;
         private TextBox txtItemName;
         private Label lblCategory;
-        private ComboBox comboBox1;
+        private ComboBox cmbCategory;
         private Label lblQuantity;
         private NumericUpDown numericUpDown1;
         private Label label1;

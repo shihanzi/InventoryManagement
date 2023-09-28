@@ -33,5 +33,13 @@ namespace InventoryManagement
             Inventory inv = new Inventory();
             inv.Show();
         }
+
+        private void btnAddCategory_Click(object sender, EventArgs e)
+        {
+            FrmDashboard frm = new FrmDashboard();
+            frm.Hide();
+            Category cat = new Category();
+            cat.Show();
+        }
     }
 }

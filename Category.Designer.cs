@@ -32,11 +32,13 @@
             lblCategoryId = new Label();
             lblCatId = new Label();
             label2 = new Label();
-            txtItemCode = new TextBox();
+            txtItemName = new TextBox();
             dgvCategory = new DataGridView();
             btnClose = new Button();
             btnSave = new Button();
             btnEdit = new Button();
+            label3 = new Label();
+            lblCategoryIdBeingEdited = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).BeginInit();
             SuspendLayout();
             // 
@@ -57,9 +59,9 @@
             lblCategoryId.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblCategoryId.Location = new Point(152, 90);
             lblCategoryId.Name = "lblCategoryId";
-            lblCategoryId.Size = new Size(46, 21);
+            lblCategoryId.Size = new Size(19, 21);
             lblCategoryId.TabIndex = 23;
-            lblCategoryId.Text = "catid";
+            lblCategoryId.Text = "0";
             // 
             // lblCatId
             // 
@@ -81,14 +83,14 @@
             label2.TabIndex = 24;
             label2.Text = "Category Name";
             // 
-            // txtItemCode
+            // txtItemName
             // 
-            txtItemCode.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtItemCode.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtItemCode.Location = new Point(152, 127);
-            txtItemCode.Name = "txtItemCode";
-            txtItemCode.Size = new Size(344, 33);
-            txtItemCode.TabIndex = 25;
+            txtItemName.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtItemName.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            txtItemName.Location = new Point(152, 127);
+            txtItemName.Name = "txtItemName";
+            txtItemName.Size = new Size(344, 33);
+            txtItemName.TabIndex = 25;
             // 
             // dgvCategory
             // 
@@ -133,17 +135,41 @@
             btnEdit.TabIndex = 29;
             btnEdit.Text = "EDIT";
             btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Click += btnEdit_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = Color.Transparent;
+            label3.Location = new Point(434, 9);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 21);
+            label3.TabIndex = 30;
+            // 
+            // lblCategoryIdBeingEdited
+            // 
+            lblCategoryIdBeingEdited.AutoSize = true;
+            lblCategoryIdBeingEdited.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCategoryIdBeingEdited.ForeColor = Color.Transparent;
+            lblCategoryIdBeingEdited.Location = new Point(434, 9);
+            lblCategoryIdBeingEdited.Name = "lblCategoryIdBeingEdited";
+            lblCategoryIdBeingEdited.Size = new Size(19, 21);
+            lblCategoryIdBeingEdited.TabIndex = 31;
+            lblCategoryIdBeingEdited.Text = "0";
             // 
             // Category
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(508, 531);
+            Controls.Add(lblCategoryIdBeingEdited);
+            Controls.Add(label3);
             Controls.Add(btnEdit);
             Controls.Add(btnClose);
             Controls.Add(btnSave);
             Controls.Add(dgvCategory);
-            Controls.Add(txtItemCode);
+            Controls.Add(txtItemName);
             Controls.Add(label2);
             Controls.Add(lblCategoryId);
             Controls.Add(lblCatId);
@@ -161,10 +187,12 @@
         private Label lblCategoryId;
         private Label lblCatId;
         private Label label2;
-        private TextBox txtItemCode;
+        private TextBox txtItemName;
         private DataGridView dgvCategory;
         private Button btnClose;
         private Button btnSave;
         private Button btnEdit;
+        private Label label3;
+        private Label lblCategoryIdBeingEdited;
     }
 }

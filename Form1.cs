@@ -25,5 +25,13 @@ namespace InventoryManagement
                 frm.Show();
             }
         }
+
+        private void btnAddItem_Click(object sender, EventArgs e)
+        {
+            FrmDashboard frm = new FrmDashboard();
+            frm.Hide();
+            Inventory inv = new Inventory();
+            inv.Show();
+        }
     }
 }

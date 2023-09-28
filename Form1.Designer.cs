@@ -29,16 +29,21 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            btnAddUser = new Button();
             btnAddItem = new Button();
             label1 = new Label();
             btnLogout = new Button();
             dgvStockDetails = new DataGridView();
+            btnAddCategory = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStockDetails).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.BackColor = SystemColors.ControlDark;
+            panel1.Controls.Add(btnAddCategory);
+            panel1.Controls.Add(btnAddUser);
             panel1.Controls.Add(btnAddItem);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btnLogout);
@@ -46,6 +51,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(253, 656);
             panel1.TabIndex = 0;
+            // 
+            // btnAddUser
+            // 
+            btnAddUser.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            btnAddUser.AutoSize = true;
+            btnAddUser.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAddUser.Location = new Point(64, 276);
+            btnAddUser.Name = "btnAddUser";
+            btnAddUser.Size = new Size(126, 53);
+            btnAddUser.TabIndex = 4;
+            btnAddUser.Text = "Add User";
+            btnAddUser.UseVisualStyleBackColor = true;
             // 
             // btnAddItem
             // 
@@ -58,6 +75,7 @@
             btnAddItem.TabIndex = 3;
             btnAddItem.Text = "Add Item";
             btnAddItem.UseVisualStyleBackColor = true;
+            btnAddItem.Click += btnAddItem_Click;
             // 
             // label1
             // 
@@ -74,9 +92,9 @@
             // 
             btnLogout.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnLogout.AutoSize = true;
-            btnLogout.Location = new Point(90, 603);
+            btnLogout.Location = new Point(64, 603);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(75, 25);
+            btnLogout.Size = new Size(126, 25);
             btnLogout.TabIndex = 1;
             btnLogout.Text = "Logout";
             btnLogout.UseVisualStyleBackColor = true;
@@ -91,6 +109,18 @@
             dgvStockDetails.RowTemplate.Height = 25;
             dgvStockDetails.Size = new Size(1070, 482);
             dgvStockDetails.TabIndex = 1;
+            // 
+            // btnAddCategory
+            // 
+            btnAddCategory.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            btnAddCategory.AutoSize = true;
+            btnAddCategory.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnAddCategory.Location = new Point(64, 204);
+            btnAddCategory.Name = "btnAddCategory";
+            btnAddCategory.Size = new Size(126, 53);
+            btnAddCategory.TabIndex = 5;
+            btnAddCategory.Text = "Add Category";
+            btnAddCategory.UseVisualStyleBackColor = true;
             // 
             // FrmDashboard
             // 
@@ -114,5 +144,7 @@
         private DataGridView dgvStockDetails;
         private Label label1;
         private Button btnAddItem;
+        private Button btnAddUser;
+        private Button btnAddCategory;
     }
 }

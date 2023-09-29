@@ -123,6 +123,7 @@
             dgvStockDetails.RowTemplate.Height = 25;
             dgvStockDetails.Size = new Size(1070, 482);
             dgvStockDetails.TabIndex = 1;
+            dgvStockDetails.CellContentDoubleClick += dgvStockDetails_CellContentDoubleClick;
             // 
             // FrmDashboard
             // 
@@ -132,6 +133,7 @@
             Controls.Add(dgvStockDetails);
             Controls.Add(panel1);
             Name = "FrmDashboard";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Dashboard";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

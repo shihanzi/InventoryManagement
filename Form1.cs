@@ -1,10 +1,15 @@
+using System.Data.SqlClient;
+using System.Data;
+
 namespace InventoryManagement
 {
     public partial class FrmDashboard : Form
     {
+        Inventory inv = new Inventory();
         public FrmDashboard()
         {
             InitializeComponent();
+            LoadCategories();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -40,6 +45,23 @@ namespace InventoryManagement
             frm.Hide();
             Category cat = new Category();
             cat.Show();
+        }
+        private void LoadCategories()
+        {
+            MyDb db = new MyDb();
+            db.OpenConnection();
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Items", db.Connection))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                dgvStockDetails.DataSource = dt;
+            }
+        }
+
+        private void dgvStockDetails_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

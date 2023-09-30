@@ -53,6 +53,8 @@
             txtDescription = new TextBox();
             dgvItemDetails = new DataGridView();
             btnUpdate = new Button();
+            btnClear = new Button();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)nudQty).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvItemDetails).BeginInit();
             SuspendLayout();
@@ -62,7 +64,7 @@
             btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnSave.BackColor = Color.LimeGreen;
             btnSave.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSave.Location = new Point(167, 633);
+            btnSave.Location = new Point(280, 633);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(147, 55);
             btnSave.TabIndex = 0;
@@ -73,9 +75,9 @@
             // btnClose
             // 
             btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnClose.BackColor = Color.OrangeRed;
+            btnClose.BackColor = Color.Orange;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnClose.Location = new Point(1120, 633);
+            btnClose.Location = new Point(1231, 633);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(154, 55);
             btnClose.TabIndex = 2;
@@ -294,19 +296,19 @@
             // 
             dgvItemDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvItemDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvItemDetails.Location = new Point(453, 71);
+            dgvItemDetails.Location = new Point(433, 71);
             dgvItemDetails.Name = "dgvItemDetails";
             dgvItemDetails.RowTemplate.Height = 25;
-            dgvItemDetails.Size = new Size(821, 539);
+            dgvItemDetails.Size = new Size(952, 539);
             dgvItemDetails.TabIndex = 24;
-            dgvItemDetails.CellContentDoubleClick += dgvItemDetails_CellContentDoubleClick;
+            dgvItemDetails.CellDoubleClick += dgvItemDetails_CellDoubleClick;
             // 
             // btnUpdate
             // 
             btnUpdate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnUpdate.BackColor = Color.FromArgb(0, 192, 192);
             btnUpdate.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnUpdate.Location = new Point(453, 633);
+            btnUpdate.Location = new Point(602, 633);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(147, 55);
             btnUpdate.TabIndex = 25;
@@ -314,12 +316,40 @@
             btnUpdate.UseVisualStyleBackColor = false;
             btnUpdate.Click += btnUpdate_Click;
             // 
+            // btnClear
+            // 
+            btnClear.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnClear.BackColor = Color.FromArgb(255, 255, 128);
+            btnClear.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnClear.Location = new Point(950, 633);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(147, 55);
+            btnClear.TabIndex = 26;
+            btnClear.Text = "CLEAR";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnDelete.BackColor = Color.Red;
+            btnDelete.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDelete.Location = new Point(777, 633);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(147, 55);
+            btnDelete.TabIndex = 27;
+            btnDelete.Text = "DELETE";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
+            // 
             // Inventory
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Moccasin;
-            ClientSize = new Size(1301, 731);
+            ClientSize = new Size(1412, 731);
+            Controls.Add(btnDelete);
+            Controls.Add(btnClear);
             Controls.Add(btnUpdate);
             Controls.Add(dgvItemDetails);
             Controls.Add(txtDescription);
@@ -382,5 +412,7 @@
         private TextBox txtDescription;
         private DataGridView dgvItemDetails;
         private Button btnUpdate;
+        private Button btnClear;
+        private Button btnDelete;
     }
 }

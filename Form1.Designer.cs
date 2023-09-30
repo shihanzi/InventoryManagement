@@ -50,7 +50,7 @@
             panel1.Controls.Add(btnLogout);
             panel1.Location = new Point(0, 1);
             panel1.Name = "panel1";
-            panel1.Size = new Size(253, 656);
+            panel1.Size = new Size(216, 656);
             panel1.TabIndex = 0;
             // 
             // btnAddCategory
@@ -58,7 +58,7 @@
             btnAddCategory.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             btnAddCategory.AutoSize = true;
             btnAddCategory.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAddCategory.Location = new Point(64, 204);
+            btnAddCategory.Location = new Point(34, 193);
             btnAddCategory.Name = "btnAddCategory";
             btnAddCategory.Size = new Size(126, 53);
             btnAddCategory.TabIndex = 5;
@@ -71,7 +71,7 @@
             btnAddUser.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             btnAddUser.AutoSize = true;
             btnAddUser.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAddUser.Location = new Point(64, 276);
+            btnAddUser.Location = new Point(34, 262);
             btnAddUser.Name = "btnAddUser";
             btnAddUser.Size = new Size(126, 53);
             btnAddUser.TabIndex = 4;
@@ -83,7 +83,7 @@
             btnAddItem.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             btnAddItem.AutoSize = true;
             btnAddItem.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAddItem.Location = new Point(64, 133);
+            btnAddItem.Location = new Point(34, 134);
             btnAddItem.Name = "btnAddItem";
             btnAddItem.Size = new Size(126, 53);
             btnAddItem.TabIndex = 3;
@@ -95,7 +95,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(43, 19);
+            label1.Location = new Point(21, 25);
             label1.Name = "label1";
             label1.Size = new Size(160, 64);
             label1.TabIndex = 2;
@@ -106,7 +106,8 @@
             // 
             btnLogout.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnLogout.AutoSize = true;
-            btnLogout.Location = new Point(64, 603);
+            btnLogout.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnLogout.Location = new Point(34, 607);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(126, 25);
             btnLogout.TabIndex = 1;
@@ -118,12 +119,11 @@
             // 
             dgvStockDetails.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStockDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStockDetails.Location = new Point(272, 162);
+            dgvStockDetails.Location = new Point(238, 162);
             dgvStockDetails.Name = "dgvStockDetails";
             dgvStockDetails.RowTemplate.Height = 25;
-            dgvStockDetails.Size = new Size(1070, 482);
+            dgvStockDetails.Size = new Size(1104, 482);
             dgvStockDetails.TabIndex = 1;
-            dgvStockDetails.CellContentDoubleClick += dgvStockDetails_CellContentDoubleClick;
             // 
             // FrmDashboard
             // 

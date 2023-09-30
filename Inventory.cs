@@ -23,6 +23,16 @@ namespace InventoryManagement
             int selectedCategoryId = (int)cmbCategory.SelectedValue;
             LoadCategories();
 
+            dgvItemDetails.Columns["ItemCode"].Width = 100;
+            dgvItemDetails.Columns["SerialNo"].Width = 75;
+            dgvItemDetails.Columns["ItemName"].Width = 100;
+            dgvItemDetails.Columns["CategoryName"].Width = 70;
+            dgvItemDetails.Columns["QTY"].Width = 50;
+            dgvItemDetails.Columns["SupplierName"].Width = 150;
+            dgvItemDetails.Columns["Cost"].Width= 70;
+            dgvItemDetails.Columns["DateOfPurchase"].Width= 80;
+            dgvItemDetails.Columns["DateAdded"].Width = 80;
+            dgvItemDetails.Columns["Description"].Width = 150;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -113,6 +123,12 @@ namespace InventoryManagement
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            var currentDate = DateTime.Now;
+            if (dtpDateOfPurchase.Value > currentDate)
+            {
+                MessageBox.Show("Please enter a valid date");
+                return;
+            }
             if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(txtSerialNumber.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
                 || string.IsNullOrEmpty(txtSuppliername.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtDescription.Text))
             {
@@ -136,7 +152,8 @@ namespace InventoryManagement
             cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
             cmd.ExecuteNonQuery();
             ClearTextBoxes();
-            //lblCategoryId.Text = GetNextCategoryId().ToString();
+            LoadCategories();
+            MessageBox.Show("Item Added Succesfully");
         }
         private void ClearTextBoxes()
         {
@@ -148,32 +165,11 @@ namespace InventoryManagement
             txtDescription.Clear();
             txtSerialNumber.Clear();
         }
-
-        private void dgvItemDetails_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            btnSave.Enabled = false;
-            btnUpdate.Enabled = true;
-            {
-                //Populate Item Management Form for editing
-                int row = dgvItemDetails.CurrentRow.Index;
-                txtItemCode.Text = Convert.ToString(dgvItemDetails[1, row].Value);
-                txtSerialNumber.Text = Convert.ToString(dgvItemDetails[0, row].Value);
-                txtItemName.Text = Convert.ToString(dgvItemDetails[2, row].Value);
-                cmbCategory.SelectedValue = Convert.ToString(dgvItemDetails[3, row].Value);
-                nudQty.Value = Convert.ToInt32(dgvItemDetails[4, row].Value);
-                txtSuppliername.Text = Convert.ToString(dgvItemDetails[5, row].Value);
-                txtCost.Text = Convert.ToString(dgvItemDetails[6, row].Value);
-                dtpDateOfPurchase.Value = Convert.ToDateTime(dgvItemDetails[7, row].Value);
-                lblCurrentDate.Text = Convert.ToString(dgvItemDetails[8, row].Value);
-                txtDescription.Text = Convert.ToString(dgvItemDetails[9, row].Value);
-            }
-        }
         private void LoadCategories()
         {
             MyDb db = new MyDb();
             db.OpenConnection();
-            string query = @"
-        SELECT 
+            string query = @"SELECT 
             I.ItemCode, 
             I.ItemName, 
             C.CategoryName,
@@ -187,20 +183,38 @@ namespace InventoryManagement
         FROM 
             Items I
         INNER JOIN 
-            Categories C ON I.CategoryId = C.CategoryId
-    ";
+            Categories C ON I.CategoryId = C.CategoryId";
             {
-                SqlDataAdapter adapter = new SqlDataAdapter(query,db.Connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(query, db.Connection);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
                 dgvItemDetails.DataSource = dt;
             }
+            dgvItemDetails.Columns["ItemCode"].HeaderText = "Item Code";
+            dgvItemDetails.Columns["SerialNo"].HeaderText = "Serial No";
+
+            dgvItemDetails.Columns["ItemCode"].DisplayIndex = 0;
+            dgvItemDetails.Columns["SerialNo"].DisplayIndex = 1;
+            dgvItemDetails.Columns["ItemName"].DisplayIndex = 2;
+            dgvItemDetails.Columns["CategoryName"].DisplayIndex = 3;
+            dgvItemDetails.Columns["QTY"].DisplayIndex = 4;
+            dgvItemDetails.Columns["SupplierName"].DisplayIndex = 5;
+            dgvItemDetails.Columns["Cost"].DisplayIndex = 6;
+            dgvItemDetails.Columns["DateOfPurchase"].DisplayIndex = 7;
+            dgvItemDetails.Columns["DateAdded"].DisplayIndex = 8;
+            dgvItemDetails.Columns["Description"].DisplayIndex = 9;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            btnSave.Enabled = true;
-            btnUpdate.Enabled = false;
+            btnSave.Enabled = false;
+            btnUpdate.Enabled = true;
+            var currentDate = DateTime.Now;
+            if (dtpDateOfPurchase.Value > currentDate)
+            {
+                MessageBox.Show("Please enter a valid date");
+                return;
+            }
             if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(txtSerialNumber.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
                 || string.IsNullOrEmpty(txtSuppliername.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtDescription.Text))
             {
@@ -224,6 +238,62 @@ namespace InventoryManagement
             cmd.ExecuteNonQuery();
             ClearTextBoxes();
             LoadCategories();
+            MessageBox.Show("Item Updated Succesfully");
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearTextBoxes();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Do you really want to delete this record?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                MyDb db = new MyDb();
+                db.OpenConnection();
+                SqlCommand cmd;
+
+                cmd = new SqlCommand("DELETE FROM Items WHERE ItemCode = @ItemCode", db.Connection);
+                cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show("Item Deleted Successfully");
+                    ClearTextBoxes();
+                    LoadCategories();
+                }
+                else
+                {
+                    MessageBox.Show("Error deleting the item. Please try again.");
+                }
+
+                db.CloseConnection();
+            }
+        }
+
+        private void dgvItemDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnSave.Enabled = false;
+            btnUpdate.Enabled = true;
+            {
+                //Populate Item Management Form for editing
+                int row = dgvItemDetails.CurrentRow.Index;
+                txtItemCode.Text = Convert.ToString(dgvItemDetails["ItemCode", row].Value);
+                txtSerialNumber.Text = Convert.ToString(dgvItemDetails["SerialNo", row].Value);
+                txtItemName.Text = Convert.ToString(dgvItemDetails["ItemName", row].Value);
+                // cmbCategory.SelectedValue = Convert.ToString(dgvItemDetails["CategoryName", row].Value);
+                nudQty.Value = Convert.ToInt32(dgvItemDetails["QTY", row].Value);
+                txtSuppliername.Text = Convert.ToString(dgvItemDetails["SupplierName", row].Value);
+                txtCost.Text = Convert.ToString(dgvItemDetails["Cost", row].Value);
+                dtpDateOfPurchase.Value = Convert.ToDateTime(dgvItemDetails["DateOfPurchase", row].Value);
+                lblCurrentDate.Text = Convert.ToString(dgvItemDetails["DateAdded", row].Value);
+                txtDescription.Text = Convert.ToString(dgvItemDetails["Description", row].Value);
+            }
         }
     }
 }

@@ -58,10 +58,5 @@ namespace InventoryManagement
                 dgvStockDetails.DataSource = dt;
             }
         }
-
-        private void dgvStockDetails_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }

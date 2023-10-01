@@ -14,11 +14,13 @@ namespace InventoryManagement
 {
     public partial class Category : Form
     {
+        private int? selectedCategoryId = null;
         public Category()
         {
             InitializeComponent();
             lblCategoryId.Text = GetNextCategoryId().ToString();
             LoadCategories();
+            btnUpdate.Enabled = false;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -47,6 +49,7 @@ namespace InventoryManagement
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            btnUpdate.Enabled = false;
             string categoryName = txtItemName.Text;
             if (string.IsNullOrEmpty(categoryName))
             {
@@ -58,20 +61,13 @@ namespace InventoryManagement
             db.OpenConnection();
             SqlCommand cmd;
 
-            if (lblCategoryIdBeingEdited.Text != "0")
-            {
-                cmd = new SqlCommand("UPDATE Categories SET CategoryName = @name WHERE CategoryId = @id", db.Connection);
-                cmd.Parameters.AddWithValue("@id", lblCategoryIdBeingEdited.Text);
-            }
-            else
-            {
-                cmd = new SqlCommand("INSERT INTO Categories (CategoryName) VALUES (@name)", db.Connection);
-            }
+            cmd = new SqlCommand("INSERT INTO Categories (CategoryName) VALUES (@name)", db.Connection);
             cmd.Parameters.AddWithValue("@name", categoryName);
             cmd.ExecuteNonQuery();
             txtItemName.Clear();
             LoadCategories();
             lblCategoryId.Text = GetNextCategoryId().ToString();
+            MessageBox.Show("Category Saved Successfully");
         }
         private void LoadCategories()
         {
@@ -88,17 +84,54 @@ namespace InventoryManagement
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvCategory.SelectedRows.Count > 0)
+            if (!selectedCategoryId.HasValue)
             {
-                DataGridViewRow selectedRow = dgvCategory.SelectedRows[0];
-                lblCategoryIdBeingEdited.Text = selectedRow.Cells["CategoryId"].Value.ToString();
-                txtItemName.Text = selectedRow.Cells["CategoryName"].Value.ToString();
+                MessageBox.Show("Please select a category to update");
+                return;
             }
+
+            MyDb db = new MyDb();
+            db.OpenConnection();
+            SqlCommand cmd = new SqlCommand("UPDATE Categories SET CategoryName = @name WHERE CategoryId = @id", db.Connection);
+
+            cmd.Parameters.AddWithValue("@name", txtItemName.Text);
+            cmd.Parameters.AddWithValue("@id", selectedCategoryId.Value);
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                MessageBox.Show("Category Updated Successfully");
+                LoadCategories();
+                lblCategoryId.Text = GetNextCategoryId().ToString();
+                txtItemName.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Error updating the category");
+            }
+
+            db.CloseConnection();
         }
 
         private void Category_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgvCategory_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnSave.Enabled = false;
+            btnUpdate.Enabled = true;
+
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvCategory.Rows[e.RowIndex];
+                selectedCategoryId = Convert.ToInt32(row.Cells["CategoryId"].Value);
+                lblCategoryId.Text = selectedCategoryId.Value.ToString();
+                txtItemName.Text = row.Cells["CategoryName"].Value.ToString();
+
+            }
         }
     }
 }

@@ -36,7 +36,7 @@
             dgvCategory = new DataGridView();
             btnClose = new Button();
             btnSave = new Button();
-            btnEdit = new Button();
+            btnUpdate = new Button();
             label3 = new Label();
             lblCategoryIdBeingEdited = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).BeginInit();
@@ -104,6 +104,7 @@
             dgvCategory.RowTemplate.Height = 25;
             dgvCategory.Size = new Size(484, 257);
             dgvCategory.TabIndex = 26;
+            dgvCategory.CellDoubleClick += dgvCategory_CellDoubleClick;
             // 
             // btnClose
             // 
@@ -131,18 +132,18 @@
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
             // 
-            // btnEdit
+            // btnUpdate
             // 
-            btnEdit.BackColor = SystemColors.ActiveBorder;
-            btnEdit.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnEdit.ForeColor = SystemColors.ActiveCaptionText;
-            btnEdit.Location = new Point(178, 464);
-            btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(147, 55);
-            btnEdit.TabIndex = 29;
-            btnEdit.Text = "EDIT";
-            btnEdit.UseVisualStyleBackColor = false;
-            btnEdit.Click += btnEdit_Click;
+            btnUpdate.BackColor = SystemColors.ActiveBorder;
+            btnUpdate.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnUpdate.ForeColor = SystemColors.ActiveCaptionText;
+            btnUpdate.Location = new Point(178, 464);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(147, 55);
+            btnUpdate.TabIndex = 29;
+            btnUpdate.Text = "UPDATE";
+            btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnEdit_Click;
             // 
             // label3
             // 
@@ -173,7 +174,7 @@
             ClientSize = new Size(508, 531);
             Controls.Add(lblCategoryIdBeingEdited);
             Controls.Add(label3);
-            Controls.Add(btnEdit);
+            Controls.Add(btnUpdate);
             Controls.Add(btnClose);
             Controls.Add(btnSave);
             Controls.Add(dgvCategory);
@@ -200,7 +201,7 @@
         private DataGridView dgvCategory;
         private Button btnClose;
         private Button btnSave;
-        private Button btnEdit;
+        private Button btnUpdate;
         private Label label3;
         private Label lblCategoryIdBeingEdited;
     }

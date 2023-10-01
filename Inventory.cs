@@ -1,4 +1,7 @@
-﻿using System;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+
 //using static InventoryManagement.MyDb;
 
 namespace InventoryManagement
@@ -23,16 +28,17 @@ namespace InventoryManagement
             int selectedCategoryId = (int)cmbCategory.SelectedValue;
             LoadCategories();
 
-            dgvItemDetails.Columns["ItemCode"].Width = 100;
             dgvItemDetails.Columns["SerialNo"].Width = 75;
             dgvItemDetails.Columns["ItemName"].Width = 100;
             dgvItemDetails.Columns["CategoryName"].Width = 70;
             dgvItemDetails.Columns["QTY"].Width = 50;
             dgvItemDetails.Columns["SupplierName"].Width = 150;
-            dgvItemDetails.Columns["Cost"].Width= 70;
-            dgvItemDetails.Columns["DateOfPurchase"].Width= 80;
+            dgvItemDetails.Columns["Cost"].Width = 70;
+            dgvItemDetails.Columns["DateOfPurchase"].Width = 80;
             dgvItemDetails.Columns["DateAdded"].Width = 80;
             dgvItemDetails.Columns["Description"].Width = 150;
+
+            LoadCategoriesToFilterComboBox();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -95,11 +101,6 @@ namespace InventoryManagement
                 textBox.SelectionStart = Math.Max(0, cursorPosition); // Ensure it doesn't go to a negative position.
             }
         }
-
-        private void Inventory_Load(object sender, EventArgs e)
-        {
-
-        }
         private DataTable GetCategories()
         {
             MyDb db = new MyDb();
@@ -120,6 +121,14 @@ namespace InventoryManagement
             cmbCategory.DisplayMember = "CategoryName";
             cmbCategory.ValueMember = "CategoryId"; // Using ID as the value now
         }
+        private void LoadCategoriesToFilterComboBox()
+        {
+            DataTable categories = GetCategories();
+            cmbFilter.DataSource = categories;
+            cmbFilter.DisplayMember = "CategoryName";
+            cmbFilter.ValueMember = "CategoryId"; // Using ID as the value now
+        }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -294,6 +303,158 @@ namespace InventoryManagement
                 lblCurrentDate.Text = Convert.ToString(dgvItemDetails["DateAdded", row].Value);
                 txtDescription.Text = Convert.ToString(dgvItemDetails["Description", row].Value);
             }
+        }
+
+        private void dgvItemDetails_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnFilterByCmb_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cmbFilter.SelectedItem?.ToString()))
+            {
+                LoadCategories();
+                return;
+            }
+
+            MyDb db = new MyDb();
+            db.OpenConnection();
+
+            SqlCommand cmd = new SqlCommand("select ItemCode,SerialNo,ItemName,c.CategoryName,QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description from Items i inner join Categories c on i.CategoryId = c.CategoryId WHERE c.CategoryId = @categoryId", db.Connection);
+            cmd.Parameters.AddWithValue("@categoryId", Convert.ToInt32(cmbFilter.SelectedValue));
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            dgvItemDetails.DataSource = dt;
+        }
+
+        private void btnDateFilter_Click(object sender, EventArgs e)
+        {
+            MyDb db = new MyDb();
+            db.OpenConnection();
+
+            var fromDate = dtpFrom.Value.Date;
+            var toDate = dtpTo.Value.Date;
+
+            if (fromDate > toDate)
+            {
+                MessageBox.Show("Start date must be before end date.");
+                return;
+            }
+            string sql = "SELECT ItemCode, SerialNo, ItemName, c.CategoryName, QTY, SupplierName, Cost, DateOfPurchase, DateAdded, Description FROM Items i INNER JOIN Categories c ON i.CategoryId = c.CategoryId WHERE DateOfPurchase BETWEEN @fromDate AND @toDate";
+
+            SqlCommand cmd = new SqlCommand(sql, db.Connection);
+            cmd.Parameters.AddWithValue("@fromDate", fromDate);
+            cmd.Parameters.AddWithValue("@toDate", toDate);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            dgvItemDetails.DataSource = dt;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string itemCode = txtSearch.Text;
+
+            if (string.IsNullOrEmpty(itemCode))
+            {
+                MessageBox.Show("Please enter an item code to search");
+                return;
+            }
+
+            MyDb db = new MyDb();
+            db.OpenConnection();
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Items i INNER JOIN Categories c ON i.CategoryId = c.CategoryId WHERE i.ItemCode LIKE @itemCode", db.Connection))
+            {
+                cmd.Parameters.AddWithValue("@itemCode", "%" + itemCode + "%");
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dgvItemDetails.DataSource = dt;
+            }
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveDialog.FilterIndex = 0;
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+                    using (ExcelPackage pck = new ExcelPackage())
+                    {
+                        ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
+                        ws.Cells["A1"].LoadFromDataTable((DataTable)dgvItemDetails.DataSource, true);
+                        pck.SaveAs(new FileInfo(saveDialog.FileName));
+                    }
+                }
+            }
+            MessageBox.Show("Excel Exported Successfully");
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveDialog.FilterIndex = 0;
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (FileStream stream = new FileStream(saveDialog.FileName, FileMode.Create))
+                    {
+                        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 10f);
+                        PdfWriter.GetInstance(pdfDoc, stream);
+                        pdfDoc.Open();
+
+                        PdfPTable pdfTable = new PdfPTable(dgvItemDetails.ColumnCount);
+
+                        // Setting the width percentage of the table to 100% to occupy the whole page
+                        pdfTable.WidthPercentage = 100;
+
+                        // If needed: Define relative column widths
+                        // pdfTable.SetWidths(new float[] { 20f, 20f, 20f, 20f, 20f });  // Adjust as per your requirement
+
+                        foreach (DataGridViewColumn column in dgvItemDetails.Columns)
+                        {
+                            pdfTable.AddCell(column.HeaderText);
+                        }
+
+                        foreach (DataGridViewRow row in dgvItemDetails.Rows)
+                        {
+                            foreach (DataGridViewCell cell in row.Cells)
+                            {
+                                if (cell.Value != null)
+                                {
+                                    pdfTable.AddCell(cell.Value.ToString());
+                                }
+                                else
+                                {
+                                    pdfTable.AddCell("");  // or whatever default value you want for null cells
+                                }
+                            }
+                        }
+
+                        pdfDoc.Add(pdfTable);
+                        pdfDoc.Close();
+                        stream.Close();
+                    }
+                }
+            }
+            MessageBox.Show("Pdf Exported Successfully");
         }
     }
 }

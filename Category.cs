@@ -95,5 +95,10 @@ namespace InventoryManagement
                 txtItemName.Text = selectedRow.Cells["CategoryName"].Value.ToString();
             }
         }
+
+        private void Category_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -47,6 +47,7 @@
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.Transparent;
             label1.Location = new Point(116, 21);
             label1.Name = "label1";
             label1.Size = new Size(267, 32);
@@ -57,6 +58,7 @@
             // 
             lblCategoryId.AutoSize = true;
             lblCategoryId.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCategoryId.ForeColor = Color.White;
             lblCategoryId.Location = new Point(152, 90);
             lblCategoryId.Name = "lblCategoryId";
             lblCategoryId.Size = new Size(19, 21);
@@ -67,6 +69,7 @@
             // 
             lblCatId.AutoSize = true;
             lblCatId.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCatId.ForeColor = Color.Transparent;
             lblCatId.Location = new Point(12, 90);
             lblCatId.Name = "lblCatId";
             lblCatId.Size = new Size(97, 21);
@@ -77,6 +80,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.Transparent;
             label2.Location = new Point(12, 133);
             label2.Name = "label2";
             label2.Size = new Size(125, 21);
@@ -103,8 +107,9 @@
             // 
             // btnClose
             // 
-            btnClose.BackColor = Color.OrangeRed;
+            btnClose.BackColor = SystemColors.ActiveBorder;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnClose.ForeColor = SystemColors.ActiveCaptionText;
             btnClose.Location = new Point(342, 464);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(154, 55);
@@ -115,8 +120,9 @@
             // 
             // btnSave
             // 
-            btnSave.BackColor = Color.LimeGreen;
+            btnSave.BackColor = SystemColors.ActiveBorder;
             btnSave.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSave.ForeColor = SystemColors.ActiveCaptionText;
             btnSave.Location = new Point(12, 464);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(147, 55);
@@ -127,8 +133,9 @@
             // 
             // btnEdit
             // 
-            btnEdit.BackColor = Color.FromArgb(0, 192, 192);
+            btnEdit.BackColor = SystemColors.ActiveBorder;
             btnEdit.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEdit.ForeColor = SystemColors.ActiveCaptionText;
             btnEdit.Location = new Point(178, 464);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(147, 55);
@@ -151,7 +158,7 @@
             // 
             lblCategoryIdBeingEdited.AutoSize = true;
             lblCategoryIdBeingEdited.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblCategoryIdBeingEdited.ForeColor = Color.Transparent;
+            lblCategoryIdBeingEdited.ForeColor = Color.DimGray;
             lblCategoryIdBeingEdited.Location = new Point(434, 9);
             lblCategoryIdBeingEdited.Name = "lblCategoryIdBeingEdited";
             lblCategoryIdBeingEdited.Size = new Size(19, 21);
@@ -162,6 +169,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DimGray;
             ClientSize = new Size(508, 531);
             Controls.Add(lblCategoryIdBeingEdited);
             Controls.Add(label3);
@@ -176,6 +184,7 @@
             Controls.Add(label1);
             Name = "Category";
             Text = "Category Management";
+            Load += Category_Load;
             ((System.ComponentModel.ISupportInitialize)dgvCategory).EndInit();
             ResumeLayout(false);
             PerformLayout();

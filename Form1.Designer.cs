@@ -119,16 +119,17 @@
             // 
             dgvStockDetails.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStockDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStockDetails.Location = new Point(238, 162);
+            dgvStockDetails.Location = new Point(238, 243);
             dgvStockDetails.Name = "dgvStockDetails";
             dgvStockDetails.RowTemplate.Height = 25;
-            dgvStockDetails.Size = new Size(1104, 482);
+            dgvStockDetails.Size = new Size(1104, 401);
             dgvStockDetails.TabIndex = 1;
             // 
             // FrmDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.DimGray;
             ClientSize = new Size(1364, 656);
             Controls.Add(dgvStockDetails);
             Controls.Add(panel1);

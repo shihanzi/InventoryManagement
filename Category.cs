@@ -130,7 +130,6 @@ namespace InventoryManagement
                 selectedCategoryId = Convert.ToInt32(row.Cells["CategoryId"].Value);
                 lblCategoryId.Text = selectedCategoryId.Value.ToString();
                 txtItemName.Text = row.Cells["CategoryName"].Value.ToString();
-
             }
         }
     }

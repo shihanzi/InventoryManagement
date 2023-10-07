@@ -138,10 +138,10 @@ namespace InventoryManagement
                 MessageBox.Show("Please enter a valid date");
                 return;
             }
-            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(txtSerialNumber.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
-                || string.IsNullOrEmpty(txtSuppliername.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtDescription.Text))
+            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text)  || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
+                 || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text))
             {
-                MessageBox.Show("Please Fill all the fields");
+                MessageBox.Show("Please Fill Required fields");
                 return;
             }
             MyDb db = new MyDb();
@@ -224,10 +224,10 @@ namespace InventoryManagement
                 MessageBox.Show("Please enter a valid date");
                 return;
             }
-            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(txtSerialNumber.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
-                || string.IsNullOrEmpty(txtSuppliername.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtDescription.Text))
+            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
+            || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text))
             {
-                MessageBox.Show("Please Fill all the fields");
+                MessageBox.Show("Please Fill Required fields");
                 return;
             }
             MyDb db = new MyDb();
@@ -253,6 +253,7 @@ namespace InventoryManagement
         private void btnClear_Click(object sender, EventArgs e)
         {
             ClearTextBoxes();
+            btnSave.Enabled = true;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -372,7 +373,7 @@ namespace InventoryManagement
 
             MyDb db = new MyDb();
             db.OpenConnection();
-            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Items i INNER JOIN Categories c ON i.CategoryId = c.CategoryId WHERE i.ItemCode LIKE @itemCode", db.Connection))
+            using (SqlCommand cmd = new SqlCommand("SELECT ItemCode,ItemName,QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,CategoryName FROM Items i INNER JOIN Categories c ON i.CategoryId = c.CategoryId WHERE i.ItemCode LIKE @itemCode", db.Connection))
             {
                 cmd.Parameters.AddWithValue("@itemCode", "%" + itemCode + "%");
 

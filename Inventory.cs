@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Drawing.Text;
 
 //using static InventoryManagement.MyDb;
 
@@ -19,10 +20,14 @@ namespace InventoryManagement
 {
     public partial class Inventory : Form
     {
+        private int selectedLocationId = 0;
         public Inventory()
         {
             InitializeComponent();
             LoadCategoriesToComboBox();
+            LoadLocationsToComboBox();
+            LoadSubLocationsToComboBox(selectedLocationId);
+            selectedLocationId = Convert.ToInt32(cmbLocation.SelectedValue);
             btnUpdate.Enabled = false;
             lblCurrentDate.Text = DateTime.Now.ToShortDateString();
             int selectedCategoryId = (int)cmbCategory.SelectedValue;
@@ -110,10 +115,61 @@ namespace InventoryManagement
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-
                 return dt;
             }
         }
+
+        private DataTable GetLocations()
+        {
+            MyDb db = new MyDb();
+            db.OpenConnection();
+            using (SqlCommand cmd = new SqlCommand("SELECT LocationID,LocationName FROM Locations", db.Connection))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+        }
+
+        private DataTable GetSubLocations(int locationId)
+        {
+            MyDb db = new MyDb();
+            db.OpenConnection();
+            using (SqlCommand cmd = new SqlCommand("SELECT SubLocationID,SubLocationName FROM SubLocations WHERE LocationID = @locationId", db.Connection))
+            {
+                cmd.Parameters.AddWithValue("@locationId", locationId);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+        }
+
+        private void LoadLocationsToComboBox()
+        {
+            DataTable locations = GetLocations();
+            cmbLocation.DataSource = locations;
+            cmbLocation.DisplayMember = "LocationName";
+            cmbLocation.ValueMember = "LocationID"; // Using ID as the value now
+        }
+
+        //private void LoadSubLocationsToComboBox()
+        //{
+        //    DataTable subLocations = GetSubLocations();
+        //    cmbSubLocation.DataSource = subLocations;
+        //    cmbSubLocation.DisplayMember = "SubLocationName";
+        //    cmbSubLocation.ValueMember = "SubLocationID"; // Using ID as the value now
+        //}
+
+        private void LoadSubLocationsToComboBox(int locationId)
+        {
+            DataTable subLocations = GetSubLocations(locationId);
+            cmbSubLocation.DataSource = subLocations;
+            cmbSubLocation.DisplayMember = "SubLocationName";
+            cmbSubLocation.ValueMember = "SubLocationID";
+        }
+
         private void LoadCategoriesToComboBox()
         {
             DataTable categories = GetCategories();
@@ -460,6 +516,17 @@ namespace InventoryManagement
                 }
             }
             MessageBox.Show("Pdf Exported Successfully");
+        }
+
+        private void cmbLocation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLocation.SelectedValue != null && cmbLocation.SelectedValue is int)
+            {
+                int selectedLocationId = Convert.ToInt32(cmbLocation.SelectedValue);
+                LoadSubLocationsToComboBox(selectedLocationId);
+            }
+            //int selectedLocationId = Convert.ToInt32(cmbLocation.SelectedValue);
+            //LoadSubLocationsToComboBox(selectedLocationId);
         }
     }
 }

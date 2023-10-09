@@ -426,7 +426,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(330, 98);
+            label3.Location = new Point(324, 98);
             label3.Name = "label3";
             label3.Size = new Size(35, 15);
             label3.TabIndex = 31;
@@ -437,7 +437,7 @@
             dtpFrom.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtpFrom.CalendarFont = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             dtpFrom.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpFrom.Location = new Point(443, 92);
+            dtpFrom.Location = new Point(429, 92);
             dtpFrom.Name = "dtpFrom";
             dtpFrom.Size = new Size(263, 23);
             dtpFrom.TabIndex = 32;
@@ -447,7 +447,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.Transparent;
-            label4.Location = new Point(384, 98);
+            label4.Location = new Point(373, 98);
             label4.Name = "label4";
             label4.Size = new Size(38, 15);
             label4.TabIndex = 33;
@@ -458,7 +458,7 @@
             dtpTo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtpTo.CalendarFont = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             dtpTo.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpTo.Location = new Point(745, 94);
+            dtpTo.Location = new Point(737, 94);
             dtpTo.Name = "dtpTo";
             dtpTo.Size = new Size(263, 23);
             dtpTo.TabIndex = 34;
@@ -468,7 +468,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(708, 100);
+            label5.Location = new Point(704, 100);
             label5.Name = "label5";
             label5.Size = new Size(23, 15);
             label5.TabIndex = 35;
@@ -625,6 +625,7 @@
             cmbLocation.Name = "cmbLocation";
             cmbLocation.Size = new Size(216, 23);
             cmbLocation.TabIndex = 47;
+            cmbLocation.SelectedIndexChanged += cmbLocation_SelectedIndexChanged;
             // 
             // label9
             // 

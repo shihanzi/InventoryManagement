@@ -138,7 +138,7 @@ namespace InventoryManagement
                 MessageBox.Show("Please enter a valid date");
                 return;
             }
-            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text)  || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
+            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
                  || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text))
             {
                 MessageBox.Show("Please Fill Required fields");
@@ -148,7 +148,7 @@ namespace InventoryManagement
             db.OpenConnection();
             SqlCommand cmd;
 
-            cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId, QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo)", db.Connection);
+            cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId, QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,DateOfExpire) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo,@DateOfExpire)", db.Connection);
             cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
             cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
             cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
@@ -159,6 +159,7 @@ namespace InventoryManagement
             cmd.Parameters.AddWithValue("@DateAdded", DateTime.Parse(lblCurrentDate.Text));
             cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
             cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
+            cmd.Parameters.AddWithValue("@DateOfExpire", dtpDateOfExpire.Value);
             cmd.ExecuteNonQuery();
             ClearTextBoxes();
             LoadCategories();
@@ -168,7 +169,7 @@ namespace InventoryManagement
         {
             txtItemName.Clear();
             txtItemCode.Clear();
-            nudQty.Equals(0);
+            nudQty.Value = 0;
             txtSuppliername.Clear();
             txtCost.Clear();
             txtDescription.Clear();
@@ -186,6 +187,7 @@ namespace InventoryManagement
             I.SupplierName,
             I.Cost,
             I.DateOfPurchase,
+            I.DateOfExpire,
             I.DateAdded,
             I.Description,
             I.SerialNo
@@ -210,8 +212,9 @@ namespace InventoryManagement
             dgvItemDetails.Columns["SupplierName"].DisplayIndex = 5;
             dgvItemDetails.Columns["Cost"].DisplayIndex = 6;
             dgvItemDetails.Columns["DateOfPurchase"].DisplayIndex = 7;
-            dgvItemDetails.Columns["DateAdded"].DisplayIndex = 8;
-            dgvItemDetails.Columns["Description"].DisplayIndex = 9;
+            dgvItemDetails.Columns["DateOfExpire"].DisplayIndex = 8;
+            dgvItemDetails.Columns["DateAdded"].DisplayIndex = 9;
+            dgvItemDetails.Columns["Description"].DisplayIndex = 10;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -233,7 +236,7 @@ namespace InventoryManagement
             MyDb db = new MyDb();
             db.OpenConnection();
             SqlCommand cmd;
-            cmd = new SqlCommand("UPDATE Items SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo WHERE ItemCode=@ItemCode", db.Connection);
+            cmd = new SqlCommand("UPDATE Items SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo,DateOfExpire=@DateOfExpire WHERE ItemCode=@ItemCode", db.Connection);
             cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
             cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
             cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
@@ -244,6 +247,7 @@ namespace InventoryManagement
             cmd.Parameters.AddWithValue("@DateAdded", DateTime.Parse(lblCurrentDate.Text));
             cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
             cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
+            cmd.Parameters.AddWithValue("@DateOfExpire", dtpDateOfExpire.Value);
             cmd.ExecuteNonQuery();
             ClearTextBoxes();
             LoadCategories();
@@ -327,7 +331,7 @@ namespace InventoryManagement
             MyDb db = new MyDb();
             db.OpenConnection();
 
-            SqlCommand cmd = new SqlCommand("select ItemCode,SerialNo,ItemName,c.CategoryName,QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description from Items i inner join Categories c on i.CategoryId = c.CategoryId WHERE c.CategoryId = @categoryId", db.Connection);
+            SqlCommand cmd = new SqlCommand("select ItemCode,SerialNo,ItemName,c.CategoryName,QTY,SupplierName,Cost,DateOfPurchase,DateOfExpire,DateAdded,Description from Items i inner join Categories c on i.CategoryId = c.CategoryId WHERE c.CategoryId = @categoryId", db.Connection);
             cmd.Parameters.AddWithValue("@categoryId", Convert.ToInt32(cmbFilter.SelectedValue));
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -373,7 +377,7 @@ namespace InventoryManagement
 
             MyDb db = new MyDb();
             db.OpenConnection();
-            using (SqlCommand cmd = new SqlCommand("SELECT ItemCode,ItemName,QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,CategoryName FROM Items i INNER JOIN Categories c ON i.CategoryId = c.CategoryId WHERE i.ItemCode LIKE @itemCode", db.Connection))
+            using (SqlCommand cmd = new SqlCommand("SELECT ItemCode,ItemName,QTY,SupplierName,Cost,DateOfPurchase,DateOfExpire,DateAdded,Description,SerialNo,CategoryName FROM Items i INNER JOIN Categories c ON i.CategoryId = c.CategoryId WHERE i.ItemCode LIKE @itemCode", db.Connection))
             {
                 cmd.Parameters.AddWithValue("@itemCode", "%" + itemCode + "%");
 

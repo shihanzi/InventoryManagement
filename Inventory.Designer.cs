@@ -71,8 +71,15 @@
             btnExportExcel = new Button();
             btnExportPdf = new Button();
             groupBox1 = new GroupBox();
+            dtpDateOfExpire = new DateTimePicker();
+            label7 = new Label();
+            label8 = new Label();
+            cmbLocation = new ComboBox();
+            label9 = new Label();
+            cmbSubLocation = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)nudQty).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvItemDetails).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // btnSave
@@ -81,9 +88,9 @@
             btnSave.BackColor = SystemColors.ActiveBorder;
             btnSave.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             btnSave.ForeColor = Color.Black;
-            btnSave.Location = new Point(280, 765);
+            btnSave.Location = new Point(213, 662);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(147, 55);
+            btnSave.Size = new Size(119, 40);
             btnSave.TabIndex = 0;
             btnSave.Text = "SAVE";
             btnSave.UseVisualStyleBackColor = false;
@@ -94,9 +101,9 @@
             btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnClose.BackColor = SystemColors.ActiveBorder;
             btnClose.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnClose.Location = new Point(1236, 765);
+            btnClose.Location = new Point(1232, 662);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(154, 55);
+            btnClose.Size = new Size(126, 40);
             btnClose.TabIndex = 2;
             btnClose.Text = "CLOSE";
             btnClose.UseVisualStyleBackColor = false;
@@ -106,11 +113,11 @@
             // 
             lblItemCode.AutoSize = true;
             lblItemCode.BackColor = Color.Transparent;
-            lblItemCode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblItemCode.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblItemCode.ForeColor = Color.Transparent;
-            lblItemCode.Location = new Point(27, 232);
+            lblItemCode.Location = new Point(12, 42);
             lblItemCode.Name = "lblItemCode";
-            lblItemCode.Size = new Size(83, 21);
+            lblItemCode.Size = new Size(59, 15);
             lblItemCode.TabIndex = 3;
             lblItemCode.Text = "ItemCode";
             // 
@@ -119,147 +126,147 @@
             lblManageItems.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblManageItems.AutoSize = true;
             lblManageItems.BackColor = Color.Transparent;
-            lblManageItems.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblManageItems.Font = new Font("Segoe UI Semibold", 12.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblManageItems.ForeColor = Color.Transparent;
-            lblManageItems.Location = new Point(137, 163);
+            lblManageItems.Location = new Point(12, 9);
             lblManageItems.Name = "lblManageItems";
-            lblManageItems.Size = new Size(147, 34);
+            lblManageItems.Size = new Size(119, 28);
             lblManageItems.TabIndex = 4;
             lblManageItems.Text = "Manage Items";
             lblManageItems.UseCompatibleTextRendering = true;
             // 
             // txtItemCode
             // 
-            txtItemCode.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtItemCode.Location = new Point(169, 220);
+            txtItemCode.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtItemCode.Location = new Point(103, 39);
             txtItemCode.Name = "txtItemCode";
-            txtItemCode.Size = new Size(259, 33);
+            txtItemCode.Size = new Size(217, 23);
             txtItemCode.TabIndex = 5;
             // 
             // lblSerialNo
             // 
             lblSerialNo.AutoSize = true;
             lblSerialNo.BackColor = Color.Transparent;
-            lblSerialNo.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSerialNo.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblSerialNo.ForeColor = Color.Transparent;
-            lblSerialNo.Location = new Point(27, 275);
+            lblSerialNo.Location = new Point(12, 77);
             lblSerialNo.Name = "lblSerialNo";
-            lblSerialNo.Size = new Size(76, 21);
+            lblSerialNo.Size = new Size(55, 15);
             lblSerialNo.TabIndex = 6;
             lblSerialNo.Text = "Serial No";
             // 
             // txtSerialNumber
             // 
-            txtSerialNumber.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtSerialNumber.Location = new Point(168, 263);
+            txtSerialNumber.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtSerialNumber.Location = new Point(103, 73);
             txtSerialNumber.Name = "txtSerialNumber";
-            txtSerialNumber.Size = new Size(259, 33);
+            txtSerialNumber.Size = new Size(217, 23);
             txtSerialNumber.TabIndex = 7;
             // 
             // lblItemName
             // 
             lblItemName.AutoSize = true;
             lblItemName.BackColor = Color.Transparent;
-            lblItemName.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblItemName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblItemName.ForeColor = Color.Transparent;
-            lblItemName.Location = new Point(27, 319);
+            lblItemName.Location = new Point(12, 110);
             lblItemName.Name = "lblItemName";
-            lblItemName.Size = new Size(91, 21);
+            lblItemName.Size = new Size(67, 15);
             lblItemName.TabIndex = 8;
             lblItemName.Text = "Item Name";
             // 
             // txtItemName
             // 
             txtItemName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtItemName.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtItemName.Location = new Point(167, 307);
+            txtItemName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtItemName.Location = new Point(103, 109);
             txtItemName.Name = "txtItemName";
-            txtItemName.Size = new Size(260, 33);
+            txtItemName.Size = new Size(217, 23);
             txtItemName.TabIndex = 9;
             // 
             // lblCategory
             // 
             lblCategory.AutoSize = true;
             lblCategory.BackColor = Color.Transparent;
-            lblCategory.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblCategory.ForeColor = Color.Transparent;
-            lblCategory.Location = new Point(27, 360);
+            lblCategory.Location = new Point(13, 149);
             lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(78, 21);
+            lblCategory.Size = new Size(54, 15);
             lblCategory.TabIndex = 10;
             lblCategory.Text = "Category";
             // 
             // cmbCategory
             // 
             cmbCategory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            cmbCategory.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            cmbCategory.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(168, 352);
+            cmbCategory.Location = new Point(104, 141);
             cmbCategory.Name = "cmbCategory";
-            cmbCategory.Size = new Size(259, 29);
+            cmbCategory.Size = new Size(216, 23);
             cmbCategory.TabIndex = 11;
             // 
             // lblQuantity
             // 
             lblQuantity.AutoSize = true;
             lblQuantity.BackColor = Color.Transparent;
-            lblQuantity.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblQuantity.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblQuantity.ForeColor = Color.Transparent;
-            lblQuantity.Location = new Point(27, 405);
+            lblQuantity.Location = new Point(12, 240);
             lblQuantity.Name = "lblQuantity";
-            lblQuantity.Size = new Size(72, 21);
+            lblQuantity.Size = new Size(53, 15);
             lblQuantity.TabIndex = 12;
             lblQuantity.Text = "Quantity";
             // 
             // nudQty
             // 
             nudQty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            nudQty.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            nudQty.Location = new Point(167, 397);
+            nudQty.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            nudQty.Location = new Point(103, 237);
             nudQty.Name = "nudQty";
-            nudQty.Size = new Size(260, 29);
+            nudQty.Size = new Size(217, 23);
             nudQty.TabIndex = 13;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.Transparent;
-            label1.Location = new Point(27, 455);
+            label1.Location = new Point(10, 270);
             label1.Name = "label1";
-            label1.Size = new Size(115, 21);
+            label1.Size = new Size(84, 15);
             label1.TabIndex = 14;
             label1.Text = "Supplier name";
             // 
             // txtSuppliername
             // 
             txtSuppliername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtSuppliername.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtSuppliername.Location = new Point(167, 443);
+            txtSuppliername.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtSuppliername.Location = new Point(103, 270);
             txtSuppliername.Name = "txtSuppliername";
-            txtSuppliername.Size = new Size(260, 33);
+            txtSuppliername.Size = new Size(217, 23);
             txtSuppliername.TabIndex = 15;
             // 
             // lblCost
             // 
             lblCost.AutoSize = true;
             lblCost.BackColor = Color.Transparent;
-            lblCost.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCost.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblCost.ForeColor = Color.Transparent;
-            lblCost.Location = new Point(27, 509);
+            lblCost.Location = new Point(10, 316);
             lblCost.Name = "lblCost";
-            lblCost.Size = new Size(43, 21);
+            lblCost.Size = new Size(30, 15);
             lblCost.TabIndex = 16;
             lblCost.Text = "Cost";
             // 
             // txtCost
             // 
             txtCost.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtCost.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtCost.Location = new Point(167, 497);
+            txtCost.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtCost.Location = new Point(103, 308);
             txtCost.Name = "txtCost";
-            txtCost.Size = new Size(260, 33);
+            txtCost.Size = new Size(217, 23);
             txtCost.TabIndex = 17;
             txtCost.TextChanged += txtCost_TextChanged;
             txtCost.KeyPress += txtCost_KeyPress;
@@ -268,11 +275,11 @@
             // 
             lblDateAdded.AutoSize = true;
             lblDateAdded.BackColor = Color.Transparent;
-            lblDateAdded.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDateAdded.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblDateAdded.ForeColor = Color.Transparent;
-            lblDateAdded.Location = new Point(27, 586);
+            lblDateAdded.Location = new Point(10, 432);
             lblDateAdded.Name = "lblDateAdded";
-            lblDateAdded.Size = new Size(98, 21);
+            lblDateAdded.Size = new Size(70, 15);
             lblDateAdded.TabIndex = 18;
             lblDateAdded.Text = "Date Added";
             // 
@@ -280,11 +287,11 @@
             // 
             lblDateOfPurchase.AutoSize = true;
             lblDateOfPurchase.BackColor = Color.Transparent;
-            lblDateOfPurchase.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDateOfPurchase.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblDateOfPurchase.ForeColor = Color.Transparent;
-            lblDateOfPurchase.Location = new Point(27, 550);
+            lblDateOfPurchase.Location = new Point(4, 355);
             lblDateOfPurchase.Name = "lblDateOfPurchase";
-            lblDateOfPurchase.Size = new Size(135, 21);
+            lblDateOfPurchase.Size = new Size(99, 15);
             lblDateOfPurchase.TabIndex = 19;
             lblDateOfPurchase.Text = "Date Of Purchase";
             // 
@@ -292,20 +299,20 @@
             // 
             dtpDateOfPurchase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtpDateOfPurchase.CalendarFont = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpDateOfPurchase.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpDateOfPurchase.Location = new Point(168, 548);
+            dtpDateOfPurchase.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dtpDateOfPurchase.Location = new Point(103, 351);
             dtpDateOfPurchase.Name = "dtpDateOfPurchase";
-            dtpDateOfPurchase.Size = new Size(259, 29);
+            dtpDateOfPurchase.Size = new Size(216, 23);
             dtpDateOfPurchase.TabIndex = 20;
             // 
             // lblCurrentDate
             // 
             lblCurrentDate.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblCurrentDate.AutoSize = true;
-            lblCurrentDate.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblCurrentDate.Location = new Point(167, 586);
+            lblCurrentDate.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblCurrentDate.Location = new Point(104, 432);
             lblCurrentDate.Name = "lblCurrentDate";
-            lblCurrentDate.Size = new Size(98, 21);
+            lblCurrentDate.Size = new Size(70, 15);
             lblCurrentDate.TabIndex = 21;
             lblCurrentDate.Text = "Date Added";
             // 
@@ -313,32 +320,32 @@
             // 
             lblDescription.AutoSize = true;
             lblDescription.BackColor = Color.Transparent;
-            lblDescription.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDescription.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblDescription.ForeColor = Color.Transparent;
-            lblDescription.Location = new Point(27, 619);
+            lblDescription.Location = new Point(10, 462);
             lblDescription.Name = "lblDescription";
-            lblDescription.Size = new Size(94, 21);
+            lblDescription.Size = new Size(68, 15);
             lblDescription.TabIndex = 22;
             lblDescription.Text = "Description";
             // 
             // txtDescription
             // 
             txtDescription.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtDescription.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtDescription.Location = new Point(168, 619);
+            txtDescription.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtDescription.Location = new Point(103, 462);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(259, 140);
+            txtDescription.Size = new Size(216, 140);
             txtDescription.TabIndex = 23;
             // 
             // dgvItemDetails
             // 
             dgvItemDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvItemDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvItemDetails.Location = new Point(433, 220);
+            dgvItemDetails.Location = new Point(343, 220);
             dgvItemDetails.Name = "dgvItemDetails";
             dgvItemDetails.RowTemplate.Height = 25;
-            dgvItemDetails.Size = new Size(955, 539);
+            dgvItemDetails.Size = new Size(1015, 436);
             dgvItemDetails.TabIndex = 24;
             dgvItemDetails.CellContentClick += dgvItemDetails_CellContentClick;
             dgvItemDetails.CellDoubleClick += dgvItemDetails_CellDoubleClick;
@@ -348,9 +355,9 @@
             btnUpdate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnUpdate.BackColor = SystemColors.ActiveBorder;
             btnUpdate.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnUpdate.Location = new Point(602, 765);
+            btnUpdate.Location = new Point(343, 662);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(147, 55);
+            btnUpdate.Size = new Size(119, 40);
             btnUpdate.TabIndex = 25;
             btnUpdate.Text = "UPDATE";
             btnUpdate.UseVisualStyleBackColor = false;
@@ -361,9 +368,9 @@
             btnClear.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnClear.BackColor = SystemColors.ActiveBorder;
             btnClear.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnClear.Location = new Point(950, 765);
+            btnClear.Location = new Point(622, 662);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(147, 55);
+            btnClear.Size = new Size(119, 40);
             btnClear.TabIndex = 26;
             btnClear.Text = "CLEAR";
             btnClear.UseVisualStyleBackColor = false;
@@ -374,9 +381,9 @@
             btnDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnDelete.BackColor = SystemColors.ActiveBorder;
             btnDelete.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnDelete.Location = new Point(777, 765);
+            btnDelete.Location = new Point(481, 662);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(147, 55);
+            btnDelete.Size = new Size(119, 40);
             btnDelete.TabIndex = 27;
             btnDelete.Text = "DELETE";
             btnDelete.UseVisualStyleBackColor = false;
@@ -384,44 +391,44 @@
             // 
             // cmbFilter
             // 
-            cmbFilter.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            cmbFilter.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             cmbFilter.FormattingEnabled = true;
-            cmbFilter.Location = new Point(501, 183);
+            cmbFilter.Location = new Point(90, 168);
             cmbFilter.Name = "cmbFilter";
-            cmbFilter.Size = new Size(209, 29);
+            cmbFilter.Size = new Size(209, 23);
             cmbFilter.TabIndex = 28;
             cmbFilter.SelectedIndexChanged += cmbFilter_SelectedIndexChanged;
             // 
             // lblFilter
             // 
             lblFilter.AutoSize = true;
-            lblFilter.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblFilter.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblFilter.ForeColor = Color.White;
-            lblFilter.Location = new Point(432, 140);
+            lblFilter.Location = new Point(28, 130);
             lblFilter.Name = "lblFilter";
-            lblFilter.Size = new Size(69, 21);
+            lblFilter.Size = new Size(49, 15);
             lblFilter.TabIndex = 29;
             lblFilter.Text = "Filter By";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(419, 185);
+            label2.Location = new Point(30, 170);
             label2.Name = "label2";
-            label2.Size = new Size(78, 21);
+            label2.Size = new Size(54, 15);
             label2.TabIndex = 30;
             label2.Text = "Category";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(710, 101);
+            label3.Location = new Point(330, 98);
             label3.Name = "label3";
-            label3.Size = new Size(48, 21);
+            label3.Size = new Size(35, 15);
             label3.TabIndex = 31;
             label3.Text = "Date:";
             // 
@@ -429,20 +436,20 @@
             // 
             dtpFrom.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtpFrom.CalendarFont = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpFrom.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpFrom.Location = new Point(823, 95);
+            dtpFrom.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dtpFrom.Location = new Point(443, 92);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new Size(259, 29);
+            dtpFrom.Size = new Size(263, 23);
             dtpFrom.TabIndex = 32;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.Transparent;
-            label4.Location = new Point(764, 101);
+            label4.Location = new Point(384, 98);
             label4.Name = "label4";
-            label4.Size = new Size(52, 21);
+            label4.Size = new Size(38, 15);
             label4.TabIndex = 33;
             label4.Text = "From:";
             // 
@@ -450,48 +457,48 @@
             // 
             dtpTo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dtpTo.CalendarFont = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpTo.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            dtpTo.Location = new Point(1125, 97);
+            dtpTo.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dtpTo.Location = new Point(745, 94);
             dtpTo.Name = "dtpTo";
-            dtpTo.Size = new Size(259, 29);
+            dtpTo.Size = new Size(263, 23);
             dtpTo.TabIndex = 34;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(1088, 103);
+            label5.Location = new Point(708, 100);
             label5.Name = "label5";
-            label5.Size = new Size(31, 21);
+            label5.Size = new Size(23, 15);
             label5.TabIndex = 35;
             label5.Text = "To:";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(979, 149);
+            label6.Location = new Point(647, 153);
             label6.Name = "label6";
-            label6.Size = new Size(129, 21);
+            label6.Size = new Size(92, 15);
             label6.TabIndex = 36;
             label6.Text = "Enter Item Code";
             // 
             // txtSearch
             // 
-            txtSearch.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            txtSearch.Location = new Point(979, 173);
+            txtSearch.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            txtSearch.Location = new Point(745, 152);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(259, 33);
+            txtSearch.Size = new Size(259, 23);
             txtSearch.TabIndex = 37;
             // 
             // btnFilterByCmb
             // 
             btnFilterByCmb.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnFilterByCmb.BackColor = SystemColors.ActiveBorder;
-            btnFilterByCmb.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnFilterByCmb.Location = new Point(716, 183);
+            btnFilterByCmb.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnFilterByCmb.Location = new Point(305, 165);
             btnFilterByCmb.Name = "btnFilterByCmb";
             btnFilterByCmb.Size = new Size(140, 29);
             btnFilterByCmb.TabIndex = 38;
@@ -503,10 +510,10 @@
             // 
             btnDateFilter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnDateFilter.BackColor = SystemColors.ActiveBorder;
-            btnDateFilter.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnDateFilter.Location = new Point(1244, 132);
+            btnDateFilter.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDateFilter.Location = new Point(866, 118);
             btnDateFilter.Name = "btnDateFilter";
-            btnDateFilter.Size = new Size(141, 29);
+            btnDateFilter.Size = new Size(139, 29);
             btnDateFilter.TabIndex = 39;
             btnDateFilter.Text = "Date Filter";
             btnDateFilter.UseVisualStyleBackColor = false;
@@ -516,8 +523,8 @@
             // 
             btnSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnSearch.BackColor = SystemColors.ActiveBorder;
-            btnSearch.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSearch.Location = new Point(1244, 173);
+            btnSearch.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSearch.Location = new Point(866, 178);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(139, 33);
             btnSearch.TabIndex = 40;
@@ -530,7 +537,7 @@
             btnExportExcel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnExportExcel.BackColor = SystemColors.ActiveBorder;
             btnExportExcel.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnExportExcel.Location = new Point(1244, 21);
+            btnExportExcel.Location = new Point(1257, -82);
             btnExportExcel.Name = "btnExportExcel";
             btnExportExcel.Size = new Size(140, 29);
             btnExportExcel.TabIndex = 41;
@@ -543,7 +550,7 @@
             btnExportPdf.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnExportPdf.BackColor = SystemColors.ActiveBorder;
             btnExportPdf.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnExportPdf.Location = new Point(1244, 56);
+            btnExportPdf.Location = new Point(1257, -47);
             btnExportPdf.Name = "btnExportPdf";
             btnExportPdf.Size = new Size(141, 29);
             btnExportPdf.TabIndex = 42;
@@ -553,36 +560,108 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(txtSearch);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(btnDateFilter);
+            groupBox1.Controls.Add(cmbFilter);
+            groupBox1.Controls.Add(btnSearch);
+            groupBox1.Controls.Add(btnFilterByCmb);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(dtpFrom);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(lblFilter);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(dtpTo);
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(393, 3);
+            groupBox1.Location = new Point(343, 2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(995, 217);
+            groupBox1.Size = new Size(1016, 217);
             groupBox1.TabIndex = 43;
             groupBox1.TabStop = false;
             groupBox1.Text = "Filter And Export";
+            // 
+            // dtpDateOfExpire
+            // 
+            dtpDateOfExpire.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dtpDateOfExpire.CalendarFont = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            dtpDateOfExpire.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dtpDateOfExpire.Location = new Point(104, 394);
+            dtpDateOfExpire.Name = "dtpDateOfExpire";
+            dtpDateOfExpire.Size = new Size(216, 23);
+            dtpDateOfExpire.TabIndex = 45;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.Transparent;
+            label7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.ForeColor = Color.Transparent;
+            label7.Location = new Point(4, 400);
+            label7.Name = "label7";
+            label7.Size = new Size(83, 15);
+            label7.TabIndex = 44;
+            label7.Text = "Date Of Expire";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.ForeColor = Color.Transparent;
+            label8.Location = new Point(13, 179);
+            label8.Name = "label8";
+            label8.Size = new Size(53, 15);
+            label8.TabIndex = 46;
+            label8.Text = "Location";
+            // 
+            // cmbLocation
+            // 
+            cmbLocation.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cmbLocation.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cmbLocation.FormattingEnabled = true;
+            cmbLocation.Location = new Point(104, 176);
+            cmbLocation.Name = "cmbLocation";
+            cmbLocation.Size = new Size(216, 23);
+            cmbLocation.TabIndex = 47;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.Transparent;
+            label9.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.ForeColor = Color.Transparent;
+            label9.Location = new Point(13, 208);
+            label9.Name = "label9";
+            label9.Size = new Size(77, 15);
+            label9.TabIndex = 48;
+            label9.Text = "Sub Location";
+            // 
+            // cmbSubLocation
+            // 
+            cmbSubLocation.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cmbSubLocation.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cmbSubLocation.FormattingEnabled = true;
+            cmbSubLocation.Location = new Point(103, 208);
+            cmbSubLocation.Name = "cmbSubLocation";
+            cmbSubLocation.Size = new Size(216, 23);
+            cmbSubLocation.TabIndex = 49;
             // 
             // Inventory
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DimGray;
-            ClientSize = new Size(1412, 832);
+            ClientSize = new Size(1369, 729);
+            Controls.Add(cmbSubLocation);
+            Controls.Add(label9);
+            Controls.Add(cmbLocation);
+            Controls.Add(label8);
+            Controls.Add(dtpDateOfExpire);
+            Controls.Add(label7);
             Controls.Add(btnExportPdf);
             Controls.Add(btnExportExcel);
-            Controls.Add(btnSearch);
-            Controls.Add(btnDateFilter);
-            Controls.Add(btnFilterByCmb);
-            Controls.Add(txtSearch);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(dtpTo);
-            Controls.Add(label4);
-            Controls.Add(dtpFrom);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(lblFilter);
-            Controls.Add(cmbFilter);
             Controls.Add(btnDelete);
             Controls.Add(btnClear);
             Controls.Add(btnUpdate);
@@ -616,6 +695,8 @@
             Text = "Item Management";
             ((System.ComponentModel.ISupportInitialize)nudQty).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvItemDetails).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -666,5 +747,11 @@
         private Button btnExportExcel;
         private Button btnExportPdf;
         private GroupBox groupBox1;
+        private DateTimePicker dtpDateOfExpire;
+        private Label label7;
+        private Label label8;
+        private ComboBox cmbLocation;
+        private Label label9;
+        private ComboBox cmbSubLocation;
     }
 }

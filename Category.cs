@@ -37,11 +37,6 @@ namespace InventoryManagement
             }
         }
 
-        private void lblCategoryId_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnClose_Click_1(object sender, EventArgs e)
         {
             this.Close();
@@ -110,13 +105,7 @@ namespace InventoryManagement
             {
                 MessageBox.Show("Error updating the category");
             }
-
             db.CloseConnection();
-        }
-
-        private void Category_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void dgvCategory_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

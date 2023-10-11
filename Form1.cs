@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using System.Data;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace InventoryManagement
 {
@@ -61,10 +62,13 @@ namespace InventoryManagement
         {
             MyDb db = new MyDb();
             db.OpenConnection();
-            string query = @"SELECT 
+            string query = @"SELECT
             I.ItemCode, 
             I.ItemName, 
             C.CategoryName,
+			L.LocationName,
+            I.DateOfExpire,
+			SL.SubLocationName,
             I.QTY,
             I.SupplierName,
             I.Cost,
@@ -72,10 +76,14 @@ namespace InventoryManagement
             I.DateAdded,
             I.Description,
             I.SerialNo
-        FROM 
+        FROM
             Items I
-        INNER JOIN 
-            Categories C ON I.CategoryId = C.CategoryId";
+        INNER JOIN
+            Categories C ON I.CategoryId = C.CategoryId
+            INNER JOIN Locations L
+            ON L.LocationID = I.LocationID
+            INNER JOIN  SubLocations SL
+            ON SL.SubLocationID = I.LocationID";
             {
                 SqlDataAdapter adapter = new SqlDataAdapter(query, db.Connection);
                 DataTable dt = new DataTable();
@@ -84,17 +92,26 @@ namespace InventoryManagement
             }
             dgvStockDetails.Columns["ItemCode"].HeaderText = "Item Code";
             dgvStockDetails.Columns["SerialNo"].HeaderText = "Serial No";
+            dgvStockDetails.Columns["DateOfExpire"].HeaderText = "Expiry Date of Item";
 
             dgvStockDetails.Columns["ItemCode"].DisplayIndex = 0;
             dgvStockDetails.Columns["SerialNo"].DisplayIndex = 1;
             dgvStockDetails.Columns["ItemName"].DisplayIndex = 2;
             dgvStockDetails.Columns["CategoryName"].DisplayIndex = 3;
-            dgvStockDetails.Columns["QTY"].DisplayIndex = 4;
-            dgvStockDetails.Columns["SupplierName"].DisplayIndex = 5;
-            dgvStockDetails.Columns["Cost"].DisplayIndex = 6;
-            dgvStockDetails.Columns["DateOfPurchase"].DisplayIndex = 7;
-            dgvStockDetails.Columns["DateAdded"].DisplayIndex = 8;
-            dgvStockDetails.Columns["Description"].DisplayIndex = 9;
+            dgvStockDetails.Columns["LocationName"].DisplayIndex = 4;
+            dgvStockDetails.Columns["SubLocationName"].DisplayIndex = 5;
+            dgvStockDetails.Columns["QTY"].DisplayIndex = 6;
+            dgvStockDetails.Columns["SupplierName"].DisplayIndex = 7;
+            dgvStockDetails.Columns["Cost"].DisplayIndex = 8;
+            dgvStockDetails.Columns["DateOfPurchase"].DisplayIndex = 9;
+            dgvStockDetails.Columns["DateAdded"].DisplayIndex = 10;
+            dgvStockDetails.Columns["DateOfExpire"].DisplayIndex = 11;
+            dgvStockDetails.Columns["Description"].DisplayIndex = 12;
+        }
+
+        private void FrmDashboard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

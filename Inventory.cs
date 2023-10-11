@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing.Text;
+using System.Reflection;
 
 //using static InventoryManagement.MyDb;
 
@@ -20,7 +21,7 @@ namespace InventoryManagement
 {
     public partial class Inventory : Form
     {
-        private int selectedLocationId = 0;
+        private int selectedLocationId = 1;
         public Inventory()
         {
             InitializeComponent();
@@ -36,6 +37,8 @@ namespace InventoryManagement
             dgvItemDetails.Columns["SerialNo"].Width = 75;
             dgvItemDetails.Columns["ItemName"].Width = 100;
             dgvItemDetails.Columns["CategoryName"].Width = 70;
+            dgvItemDetails.Columns["LocationName"].Width = 70;
+            dgvItemDetails.Columns["SubLocationName"].Width = 70;
             dgvItemDetails.Columns["QTY"].Width = 50;
             dgvItemDetails.Columns["SupplierName"].Width = 150;
             dgvItemDetails.Columns["Cost"].Width = 70;
@@ -153,15 +156,6 @@ namespace InventoryManagement
             cmbLocation.DisplayMember = "LocationName";
             cmbLocation.ValueMember = "LocationID"; // Using ID as the value now
         }
-
-        //private void LoadSubLocationsToComboBox()
-        //{
-        //    DataTable subLocations = GetSubLocations();
-        //    cmbSubLocation.DataSource = subLocations;
-        //    cmbSubLocation.DisplayMember = "SubLocationName";
-        //    cmbSubLocation.ValueMember = "SubLocationID"; // Using ID as the value now
-        //}
-
         private void LoadSubLocationsToComboBox(int locationId)
         {
             DataTable subLocations = GetSubLocations(locationId);
@@ -194,7 +188,7 @@ namespace InventoryManagement
                 MessageBox.Show("Please enter a valid date");
                 return;
             }
-            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
+            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbLocation.Text) || string.IsNullOrEmpty(cmbSubLocation.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
                  || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text))
             {
                 MessageBox.Show("Please Fill Required fields");
@@ -204,10 +198,12 @@ namespace InventoryManagement
             db.OpenConnection();
             SqlCommand cmd;
 
-            cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId, QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,DateOfExpire) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo,@DateOfExpire)", db.Connection);
+            cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId, QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,DateOfExpire,LocationID,SubLocationID) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo,@DateOfExpire,@LocationID,@SubLocationID)", db.Connection);
             cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
             cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
             cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
+            cmd.Parameters.AddWithValue("@LocationID", cmbLocation.SelectedValue);
+            cmd.Parameters.AddWithValue("@SubLocationID", cmbSubLocation.SelectedValue);
             cmd.Parameters.AddWithValue("@QTY", nudQty.Value);
             cmd.Parameters.AddWithValue("@SupplierName", txtSuppliername.Text);
             cmd.Parameters.AddWithValue("@Cost", txtCost.Text);
@@ -237,20 +233,23 @@ namespace InventoryManagement
             db.OpenConnection();
             string query = @"SELECT 
             I.ItemCode, 
-            I.ItemName, 
+            I.SerialNo,
+            I.ItemName,
             C.CategoryName,
+            L.LocationName,
+			SL.SubLocationName,
             I.QTY,
             I.SupplierName,
             I.Cost,
             I.DateOfPurchase,
             I.DateOfExpire,
             I.DateAdded,
-            I.Description,
-            I.SerialNo
-        FROM 
+            I.Description
+        FROM
             Items I
-        INNER JOIN 
-            Categories C ON I.CategoryId = C.CategoryId";
+        INNER JOIN Categories C ON I.CategoryId = C.CategoryId
+        INNER JOIN Locations L ON I.LocationID = L.LocationID
+        INNER JOIN SubLocations SL ON I.SubLocationID = SL.SubLocationID";
             {
                 SqlDataAdapter adapter = new SqlDataAdapter(query, db.Connection);
                 DataTable dt = new DataTable();
@@ -259,18 +258,21 @@ namespace InventoryManagement
             }
             dgvItemDetails.Columns["ItemCode"].HeaderText = "Item Code";
             dgvItemDetails.Columns["SerialNo"].HeaderText = "Serial No";
+            dgvItemDetails.Columns["DateOfExpire"].HeaderText = "Expiry Date of Item";
 
             dgvItemDetails.Columns["ItemCode"].DisplayIndex = 0;
             dgvItemDetails.Columns["SerialNo"].DisplayIndex = 1;
             dgvItemDetails.Columns["ItemName"].DisplayIndex = 2;
             dgvItemDetails.Columns["CategoryName"].DisplayIndex = 3;
-            dgvItemDetails.Columns["QTY"].DisplayIndex = 4;
-            dgvItemDetails.Columns["SupplierName"].DisplayIndex = 5;
-            dgvItemDetails.Columns["Cost"].DisplayIndex = 6;
-            dgvItemDetails.Columns["DateOfPurchase"].DisplayIndex = 7;
-            dgvItemDetails.Columns["DateOfExpire"].DisplayIndex = 8;
-            dgvItemDetails.Columns["DateAdded"].DisplayIndex = 9;
-            dgvItemDetails.Columns["Description"].DisplayIndex = 10;
+            dgvItemDetails.Columns["LocationName"].DisplayIndex = 4;
+            dgvItemDetails.Columns["SubLocationName"].DisplayIndex = 5;
+            dgvItemDetails.Columns["QTY"].DisplayIndex = 6;
+            dgvItemDetails.Columns["SupplierName"].DisplayIndex = 7;
+            dgvItemDetails.Columns["Cost"].DisplayIndex = 8;
+            dgvItemDetails.Columns["DateOfPurchase"].DisplayIndex = 9;
+            dgvItemDetails.Columns["DateOfExpire"].DisplayIndex = 10;
+            dgvItemDetails.Columns["DateAdded"].DisplayIndex = 11;
+            dgvItemDetails.Columns["Description"].DisplayIndex = 12;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -283,8 +285,8 @@ namespace InventoryManagement
                 MessageBox.Show("Please enter a valid date");
                 return;
             }
-            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty((nudQty.Value.ToString()))
-            || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text))
+            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(nudQty.Value.ToString())
+            || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(cmbLocation.Text) || string.IsNullOrEmpty(cmbSubLocation.Text))
             {
                 MessageBox.Show("Please Fill Required fields");
                 return;
@@ -292,10 +294,12 @@ namespace InventoryManagement
             MyDb db = new MyDb();
             db.OpenConnection();
             SqlCommand cmd;
-            cmd = new SqlCommand("UPDATE Items SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo,DateOfExpire=@DateOfExpire WHERE ItemCode=@ItemCode", db.Connection);
+            cmd = new SqlCommand("UPDATE Items SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo,DateOfExpire=@DateOfExpire,LocationID=@LocationID,SubLocationID=@SubLocationID WHERE ItemCode=@ItemCode", db.Connection);
             cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
             cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
             cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
+            cmd.Parameters.AddWithValue("@LocationID", cmbLocation.SelectedValue);
+            cmd.Parameters.AddWithValue("@SubLocationID", cmbSubLocation.SelectedValue);
             cmd.Parameters.AddWithValue("@QTY", nudQty.Value);
             cmd.Parameters.AddWithValue("@SupplierName", txtSuppliername.Text);
             cmd.Parameters.AddWithValue("@Cost", txtCost.Text);

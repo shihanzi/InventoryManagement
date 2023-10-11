@@ -136,6 +136,7 @@
             Name = "FrmDashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Dashboard";
+            FormClosed += FrmDashboard_FormClosed;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStockDetails).EndInit();

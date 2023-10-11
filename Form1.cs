@@ -113,5 +113,13 @@ namespace InventoryManagement
         {
             Application.Exit();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmDashboard frm = new FrmDashboard();
+            frm.Hide();
+            ManageLocations ml = new ManageLocations();
+            ml.Show();
+        }
     }
 }

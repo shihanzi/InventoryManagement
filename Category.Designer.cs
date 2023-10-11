@@ -186,7 +186,6 @@
             Name = "Category";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Category Management";
-            Load += Category_Load;
             ((System.ComponentModel.ISupportInitialize)dgvCategory).EndInit();
             ResumeLayout(false);
             PerformLayout();

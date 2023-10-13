@@ -25,7 +25,7 @@ namespace InventoryManagement
             string locationName = txtLocationName.Text;
             if (string.IsNullOrEmpty(locationName))
             {
-                MessageBox.Show("Please enter a category to Continue");
+                MessageBox.Show("Please enter a Location to Continue");
                 return;
             }
 
@@ -36,10 +36,10 @@ namespace InventoryManagement
             cmd = new SqlCommand("INSERT INTO Locations (LocationName) VALUES (@name)", db.Connection);
             cmd.Parameters.AddWithValue("@name", locationName);
             cmd.ExecuteNonQuery();
-            txtLocationName.Clear();
-            LoadLocations();
             lblLocationId.Text = GetNextLocationId().ToString();
             MessageBox.Show("Location Saved Successfully");
+            txtLocationName.Clear();
+            LoadLocations();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -90,7 +90,7 @@ namespace InventoryManagement
         {
             MyDb db = new MyDb();
             db.OpenConnection();
-            using (SqlCommand cmd = new SqlCommand("SELECT * FROM Locations", db.Connection))
+            using (SqlCommand cmd = new SqlCommand("SELECT* FROM Locations", db.Connection))
             {
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

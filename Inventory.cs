@@ -173,13 +173,8 @@ namespace InventoryManagement
         }
         private void LoadCategoriesToFilterComboBox()
         {
-            DataTable categories = GetCategories();
-            cmbFilter.DataSource = categories;
-            cmbFilter.DisplayMember = "CategoryName";
-            cmbFilter.ValueMember = "CategoryId"; // Using ID as the value now
+            LoadCategoriesToComboBox();
         }
-
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             var currentDate = DateTime.Now;

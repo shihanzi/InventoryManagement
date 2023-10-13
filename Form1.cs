@@ -121,5 +121,13 @@ namespace InventoryManagement
             ManageLocations ml = new ManageLocations();
             ml.Show();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FrmDashboard frm = new FrmDashboard();
+            frm.Hide();
+            ManageSubLocations msl = new ManageSubLocations();
+            msl.Show();
+        }
     }
 }

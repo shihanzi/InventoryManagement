@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            button2 = new Button();
+            button1 = new Button();
             btnAddCategory = new Button();
             btnAddUser = new Button();
             btnAddItem = new Button();
             label1 = new Label();
             btnLogout = new Button();
             dgvStockDetails = new DataGridView();
-            button1 = new Button();
-            button2 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStockDetails).BeginInit();
             SuspendLayout();
@@ -56,6 +56,32 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(216, 656);
             panel1.TabIndex = 0;
+            // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            button2.AutoSize = true;
+            button2.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            button2.Location = new Point(25, 311);
+            button2.Name = "button2";
+            button2.Size = new Size(167, 53);
+            button2.TabIndex = 7;
+            button2.Text = "Manage Sub Location";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button1
+            // 
+            button1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            button1.AutoSize = true;
+            button1.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.Location = new Point(25, 252);
+            button1.Name = "button1";
+            button1.Size = new Size(167, 53);
+            button1.TabIndex = 6;
+            button1.Text = "Manage Location";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // btnAddCategory
             // 
@@ -128,31 +154,6 @@
             dgvStockDetails.RowTemplate.Height = 25;
             dgvStockDetails.Size = new Size(1104, 401);
             dgvStockDetails.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            button1.AutoSize = true;
-            button1.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(25, 252);
-            button1.Name = "button1";
-            button1.Size = new Size(167, 53);
-            button1.TabIndex = 6;
-            button1.Text = "Manage Location";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            button2.AutoSize = true;
-            button2.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            button2.Location = new Point(25, 311);
-            button2.Name = "button2";
-            button2.Size = new Size(167, 53);
-            button2.TabIndex = 7;
-            button2.Text = "Manage Sub Location";
-            button2.UseVisualStyleBackColor = true;
             // 
             // FrmDashboard
             // 

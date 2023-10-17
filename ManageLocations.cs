@@ -40,6 +40,7 @@ namespace InventoryManagement
             MessageBox.Show("Location Saved Successfully");
             txtLocationName.Clear();
             LoadLocations();
+            Clear();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -70,6 +71,7 @@ namespace InventoryManagement
             {
                 MessageBox.Show("Error updating the Location");
             }
+            Clear();
             db.CloseConnection();
         }
 
@@ -106,6 +108,10 @@ namespace InventoryManagement
             {
                 return (int)cmd.ExecuteScalar();
             }
+        }
+        private void Clear()
+        {
+            txtLocationName.Clear();
         }
     }
 }

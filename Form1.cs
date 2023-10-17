@@ -92,7 +92,7 @@ namespace InventoryManagement
             }
             dgvStockDetails.Columns["ItemCode"].HeaderText = "Item Code";
             dgvStockDetails.Columns["SerialNo"].HeaderText = "Serial No";
-            dgvStockDetails.Columns["DateOfExpire"].HeaderText = "Expiry Date of Item";
+            dgvStockDetails.Columns["DateOfExpire"].HeaderText = "Warranty Expire Date";
 
             dgvStockDetails.Columns["ItemCode"].DisplayIndex = 0;
             dgvStockDetails.Columns["SerialNo"].DisplayIndex = 1;
@@ -128,6 +128,13 @@ namespace InventoryManagement
             frm.Hide();
             ManageSubLocations msl = new ManageSubLocations();
             msl.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Advance_Report ar = new Advance_Report();
+            ar.Show();
         }
     }
 }

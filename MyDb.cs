@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace InventoryManagement
 {
-    internal class MyDb
+    internal class MyDb : IDisposable
     {
         private readonly string _connectionString;
         private SqlConnection _connection;
@@ -61,6 +61,15 @@ namespace InventoryManagement
                 {
                     // Handle exception
                 }
+            }
+        }
+
+        public void Dispose()
+        {
+            if (Connection != null)
+            {
+                Connection.Close();
+                Connection.Dispose();
             }
         }
     }

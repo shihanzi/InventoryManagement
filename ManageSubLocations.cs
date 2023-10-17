@@ -32,6 +32,7 @@ namespace InventoryManagement
             MessageBox.Show("Sub Location Saved Successfully");
             cmd.ExecuteNonQuery();
             LoadSubLocations();
+            Clear();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -90,7 +91,7 @@ namespace InventoryManagement
                 MessageBox.Show("Error updating the SubLocation");
             }
             db.CloseConnection();
-
+            Clear();
         }
         private void LoadLocationsToComboBox()
         {
@@ -123,6 +124,10 @@ namespace InventoryManagement
                 selectedSubLocationId = Convert.ToInt32(dgvSubLocations["SubLocationID", row].Value);
                 lblSubLocationId.Text = selectedSubLocationId.ToString();
             }
+        }
+        private void Clear()
+        {
+            txtSubLocationName.Clear();
         }
     }
 }

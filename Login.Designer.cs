@@ -54,14 +54,15 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(12, 17);
+            label1.Location = new Point(53, 32);
             label1.Name = "label1";
-            label1.Size = new Size(348, 32);
+            label1.Size = new Size(283, 32);
             label1.TabIndex = 1;
-            label1.Text = "Inventory Management System";
+            label1.Text = "Fixed Asset Management";
             // 
             // groupBox1
             // 

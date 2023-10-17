@@ -77,6 +77,7 @@
             cmbLocation = new ComboBox();
             label9 = new Label();
             cmbSubLocation = new ComboBox();
+            lblItemId = new Label();
             ((System.ComponentModel.ISupportInitialize)nudQty).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvItemDetails).BeginInit();
             groupBox1.SuspendLayout();
@@ -223,6 +224,7 @@
             nudQty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             nudQty.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             nudQty.Location = new Point(103, 237);
+            nudQty.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudQty.Name = "nudQty";
             nudQty.Size = new Size(217, 23);
             nudQty.TabIndex = 13;
@@ -649,12 +651,22 @@
             cmbSubLocation.Size = new Size(216, 23);
             cmbSubLocation.TabIndex = 49;
             // 
+            // lblItemId
+            // 
+            lblItemId.AutoSize = true;
+            lblItemId.Location = new Point(278, 8);
+            lblItemId.Name = "lblItemId";
+            lblItemId.Size = new Size(44, 15);
+            lblItemId.TabIndex = 50;
+            lblItemId.Text = "label10";
+            // 
             // Inventory
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DimGray;
             ClientSize = new Size(1369, 729);
+            Controls.Add(lblItemId);
             Controls.Add(cmbSubLocation);
             Controls.Add(label9);
             Controls.Add(cmbLocation);
@@ -754,5 +766,6 @@
         private ComboBox cmbLocation;
         private Label label9;
         private ComboBox cmbSubLocation;
+        private Label lblItemId;
     }
 }

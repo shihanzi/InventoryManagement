@@ -1,19 +1,8 @@
-﻿using iTextSharp.text.pdf;
-using iTextSharp.text;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
 using OfficeOpenXml;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using System.Drawing.Text;
-using System.Reflection;
 
 //using static InventoryManagement.MyDb;
 
@@ -45,8 +34,10 @@ namespace InventoryManagement
             dgvItemDetails.Columns["DateOfPurchase"].Width = 80;
             dgvItemDetails.Columns["DateAdded"].Width = 80;
             dgvItemDetails.Columns["Description"].Width = 150;
-
             LoadCategoriesToFilterComboBox();
+
+            lblItemId.Visible = false;
+            //int itemIdToUpdate = Convert.ToInt32(lblItemId.Text);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -193,6 +184,15 @@ namespace InventoryManagement
             db.OpenConnection();
             SqlCommand cmd;
 
+            SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM Items WHERE ItemCode=@ItemCode", db.Connection);
+            checkCmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
+            int count = (int)checkCmd.ExecuteScalar();
+            if (count > 0)
+            {
+                MessageBox.Show("ItemCode already exists. Please choose a different one.");
+                return;
+            }
+
             cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId, QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,DateOfExpire,LocationID,SubLocationID) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo,@DateOfExpire,@LocationID,@SubLocationID)", db.Connection);
             cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
             cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
@@ -253,7 +253,7 @@ namespace InventoryManagement
             }
             dgvItemDetails.Columns["ItemCode"].HeaderText = "Item Code";
             dgvItemDetails.Columns["SerialNo"].HeaderText = "Serial No";
-            dgvItemDetails.Columns["DateOfExpire"].HeaderText = "Expiry Date of Item";
+            dgvItemDetails.Columns["DateOfExpire"].HeaderText = "Warranty Expire Date";
 
             dgvItemDetails.Columns["ItemCode"].DisplayIndex = 0;
             dgvItemDetails.Columns["SerialNo"].DisplayIndex = 1;
@@ -272,41 +272,88 @@ namespace InventoryManagement
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            btnSave.Enabled = false;
-            btnUpdate.Enabled = true;
             var currentDate = DateTime.Now;
+
             if (dtpDateOfPurchase.Value > currentDate)
             {
-                MessageBox.Show("Please enter a valid date");
+                MessageBox.Show("Please enter a valid date.");
                 return;
             }
-            if (string.IsNullOrEmpty(txtItemCode.Text) || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(cmbCategory.Text) || string.IsNullOrEmpty(nudQty.Value.ToString())
-            || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(txtCost.Text) || string.IsNullOrEmpty(cmbLocation.Text) || string.IsNullOrEmpty(cmbSubLocation.Text))
+
+            // Validation for empty fields
+            if (string.IsNullOrEmpty(txtItemCode.Text) ||
+                string.IsNullOrEmpty(txtItemName.Text) ||
+                cmbCategory.SelectedValue == null ||
+                string.IsNullOrEmpty(nudQty.Value.ToString()) ||
+                string.IsNullOrEmpty(txtCost.Text) ||
+                cmbLocation.SelectedValue == null ||
+                cmbSubLocation.SelectedValue == null)
             {
-                MessageBox.Show("Please Fill Required fields");
+                MessageBox.Show("Please Fill Required fields.");
                 return;
             }
-            MyDb db = new MyDb();
-            db.OpenConnection();
-            SqlCommand cmd;
-            cmd = new SqlCommand("UPDATE Items SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo,DateOfExpire=@DateOfExpire,LocationID=@LocationID,SubLocationID=@SubLocationID WHERE ItemCode=@ItemCode", db.Connection);
-            cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
-            cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
-            cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
-            cmd.Parameters.AddWithValue("@LocationID", cmbLocation.SelectedValue);
-            cmd.Parameters.AddWithValue("@SubLocationID", cmbSubLocation.SelectedValue);
-            cmd.Parameters.AddWithValue("@QTY", nudQty.Value);
-            cmd.Parameters.AddWithValue("@SupplierName", txtSuppliername.Text);
-            cmd.Parameters.AddWithValue("@Cost", txtCost.Text);
-            cmd.Parameters.AddWithValue("@DateOfPurchase", dtpDateOfPurchase.Value);
-            cmd.Parameters.AddWithValue("@DateAdded", DateTime.Parse(lblCurrentDate.Text));
-            cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
-            cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
-            cmd.Parameters.AddWithValue("@DateOfExpire", dtpDateOfExpire.Value);
-            cmd.ExecuteNonQuery();
-            ClearTextBoxes();
-            LoadCategories();
-            MessageBox.Show("Item Updated Succesfully");
+
+            using (MyDb db = new MyDb())
+            {
+                db.OpenConnection();
+
+                // Check for existing item code, excluding the current item being updated
+                string checkCmdText = "SELECT COUNT(*) FROM Items WHERE ItemCode=@ItemCode AND ItemId<>@CurrentItemId";
+                using (SqlCommand checkCmd = new SqlCommand(checkCmdText, db.Connection))
+                {
+                    checkCmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
+                    checkCmd.Parameters.AddWithValue("@CurrentItemId", Convert.ToInt32(lblItemId.Text));
+
+                    int count = (int)checkCmd.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        MessageBox.Show("ItemCode already exists in another item. Please choose a different one.");
+                        return;
+                    }
+                }s
+
+                // Update item details
+                string cmdText = @"UPDATE Items 
+                          SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, 
+                              QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,
+                              DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo,DateOfExpire=@DateOfExpire,
+                              LocationID=@LocationID,SubLocationID=@SubLocationID 
+                          WHERE ItemId=@CurrentItemId";
+
+                using (SqlCommand cmd = new SqlCommand(cmdText, db.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
+                    cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
+                    cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
+                    cmd.Parameters.AddWithValue("@LocationID", cmbLocation.SelectedValue);
+                    cmd.Parameters.AddWithValue("@SubLocationID", cmbSubLocation.SelectedValue);
+                    cmd.Parameters.AddWithValue("@QTY", nudQty.Value);
+                    cmd.Parameters.AddWithValue("@SupplierName", txtSuppliername.Text);
+                    cmd.Parameters.AddWithValue("@Cost", txtCost.Text);
+                    cmd.Parameters.AddWithValue("@DateOfPurchase", dtpDateOfPurchase.Value);
+                    cmd.Parameters.AddWithValue("@DateAdded", DateTime.Parse(lblCurrentDate.Text));
+                    cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
+                    cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
+                    cmd.Parameters.AddWithValue("@DateOfExpire", dtpDateOfExpire.Value);
+                    cmd.Parameters.AddWithValue("@CurrentItemId", Convert.ToInt32(lblItemId.Text));
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Item Updated Successfully");
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Error updating item: " + ex.Message);
+                    }
+                }
+
+                ClearTextBoxes();
+                LoadCategories();
+
+                btnSave.Enabled = true;
+                btnUpdate.Enabled = false;
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -347,6 +394,9 @@ namespace InventoryManagement
 
         private void dgvItemDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            //string currentItemCode = txtItemCode.Text;
+            //lblItemId.Text = GetItemIdByItemCode(currentItemCode).ToString();  
+
             btnSave.Enabled = false;
             btnUpdate.Enabled = true;
             {
@@ -362,6 +412,8 @@ namespace InventoryManagement
                 dtpDateOfPurchase.Value = Convert.ToDateTime(dgvItemDetails["DateOfPurchase", row].Value);
                 lblCurrentDate.Text = Convert.ToString(dgvItemDetails["DateAdded", row].Value);
                 txtDescription.Text = Convert.ToString(dgvItemDetails["Description", row].Value);
+
+                lblItemId.Text = GetItemIdByItemCode(txtItemCode.Text).ToString();
             }
         }
 
@@ -526,6 +578,18 @@ namespace InventoryManagement
             }
             //int selectedLocationId = Convert.ToInt32(cmbLocation.SelectedValue);
             //LoadSubLocationsToComboBox(selectedLocationId);
+        }
+        private int GetItemIdByItemCode(string itemCode)
+        {
+            using (MyDb db = new MyDb())
+            {
+                db.OpenConnection();
+                using (SqlCommand cmd = new SqlCommand("SELECT ItemId FROM Items WHERE ItemCode = @ItemCode", db.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@ItemCode", itemCode);
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
         }
     }
 }

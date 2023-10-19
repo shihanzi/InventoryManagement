@@ -70,8 +70,7 @@ namespace InventoryManagement
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string baseQuery = "SELECT * FROM Items WHERE 1=1"; // The 1=1 is just a dummy condition to simplify appending additional conditions.
-            Console.WriteLine(baseQuery);
+            string baseQuery = @"SELECT I.ItemCode, I.SerialNo,I.ItemName,C.CategoryName, L.LocationName, SL.SubLocationName,I.QTY,I.SupplierName,I.Cost,I.DateOfPurchase,I.DateOfExpire,I.DateAdded,I.Description FROM Items I LEFT JOIN Categories C ON I.CategoryId = C.CategoryId LEFT JOIN Locations L ON I.LocationID = L.LocationID LEFT JOIN SubLocations SL ON I.SubLocationID = SL.SubLocationID WHERE 1=1"; // The 1=1 is just a dummy condition to simplify appending additional conditions.
 
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -91,19 +90,19 @@ namespace InventoryManagement
 
             if (cmbCategory.SelectedValue != null)
             {
-                baseQuery += " AND CategoryId = @CategoryId";
+                baseQuery += " AND I.CategoryId = @CategoryId";
                 parameters.Add(new SqlParameter("@CategoryId", cmbCategory.SelectedValue));
             }
 
             if (cmbLocation.SelectedValue != null)
             {
-                baseQuery += " AND LocationId = @LocationId";
+                baseQuery += " AND I.LocationId = @LocationId";
                 parameters.Add(new SqlParameter("@LocationId", cmbLocation.SelectedValue));
             }
 
             if (cmbSubLocation.SelectedValue != null)
             {
-                baseQuery += " AND SubLocationId = @SubLocationId";
+                baseQuery += " AND I.SubLocationId = @SubLocationId";
                 parameters.Add(new SqlParameter("@SubLocationId", cmbSubLocation.SelectedValue));
             }
 

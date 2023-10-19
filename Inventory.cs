@@ -310,7 +310,7 @@ namespace InventoryManagement
                         MessageBox.Show("ItemCode already exists in another item. Please choose a different one.");
                         return;
                     }
-                }s
+                }
 
                 // Update item details
                 string cmdText = @"UPDATE Items 

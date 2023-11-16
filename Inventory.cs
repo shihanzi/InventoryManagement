@@ -3,6 +3,9 @@ using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Windows.Forms;
+
 
 //using static InventoryManagement.MyDb;
 
@@ -11,11 +14,15 @@ namespace InventoryManagement
     public partial class Inventory : Form
     {
         private int selectedLocationId = 1;
+        private string selectedImagePath = string.Empty;
         public Inventory()
         {
             InitializeComponent();
             LoadCategoriesToComboBox();
+            LoadCategoriesToFilterComboBox();
             LoadLocationsToComboBox();
+            LoadLocationsToFilterComboBox();
+            LoadSubLocationsToFilterComboBox(selectedLocationId);
             LoadSubLocationsToComboBox(selectedLocationId);
             selectedLocationId = Convert.ToInt32(cmbLocation.SelectedValue);
             btnUpdate.Enabled = false;
@@ -34,9 +41,11 @@ namespace InventoryManagement
             dgvItemDetails.Columns["DateOfPurchase"].Width = 80;
             dgvItemDetails.Columns["DateAdded"].Width = 80;
             dgvItemDetails.Columns["Description"].Width = 150;
-            LoadCategoriesToFilterComboBox();
+            //LoadCategoriesToFilterComboBox();
+            dgvItemDetails.Refresh();
 
             lblItemId.Visible = false;
+            //LoadCategories();
             //int itemIdToUpdate = Convert.ToInt32(lblItemId.Text);
         }
 
@@ -154,6 +163,20 @@ namespace InventoryManagement
             cmbSubLocation.DisplayMember = "SubLocationName";
             cmbSubLocation.ValueMember = "SubLocationID";
         }
+        private void LoadLocationsToFilterComboBox()
+        {
+            DataTable locations = GetLocations();
+            cmbLocFilter.DataSource = locations;
+            cmbLocFilter.DisplayMember = "LocationName";
+            cmbLocFilter.ValueMember = "LocationID"; // Using ID as the value now
+        }
+        private void LoadSubLocationsToFilterComboBox(int locationId)
+        {
+            DataTable subLocations = GetSubLocations(locationId);
+            cmbSubFilter.DataSource = subLocations;
+            cmbSubFilter.DisplayMember = "SubLocationName";
+            cmbSubFilter.ValueMember = "SubLocationID";
+        }
 
         private void LoadCategoriesToComboBox()
         {
@@ -164,7 +187,10 @@ namespace InventoryManagement
         }
         private void LoadCategoriesToFilterComboBox()
         {
-            LoadCategoriesToComboBox();
+            DataTable categories = GetCategories();
+            cmbFilter.DataSource = categories;
+            cmbFilter.DisplayMember = "CategoryName";
+            cmbFilter.ValueMember = "CategoryId"; // Using ID as the value now
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -193,7 +219,7 @@ namespace InventoryManagement
                 return;
             }
 
-            cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId, QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,DateOfExpire,LocationID,SubLocationID) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo,@DateOfExpire,@LocationID,@SubLocationID)", db.Connection);
+            cmd = new SqlCommand("INSERT INTO Items (ItemCode,ItemName,CategoryId,QTY,SupplierName,Cost,DateOfPurchase,DateAdded,Description,SerialNo,DateOfExpire,LocationID,SubLocationID,ImagePath) VALUES (@ItemCode,@ItemName,@CategoryId,@QTY,@SupplierName,@Cost,@DateOfPurchase,@DateAdded,@Description,@SerialNo,@DateOfExpire,@LocationID,@SubLocationID,@ImagePath)", db.Connection);
             cmd.Parameters.AddWithValue("@ItemCode", txtItemCode.Text);
             cmd.Parameters.AddWithValue("@ItemName", txtItemName.Text);
             cmd.Parameters.AddWithValue("@CategoryId", cmbCategory.SelectedValue);
@@ -207,7 +233,12 @@ namespace InventoryManagement
             cmd.Parameters.AddWithValue("@Description", txtDescription.Text);
             cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
             cmd.Parameters.AddWithValue("@DateOfExpire", dtpDateOfExpire.Value);
+
+            string destinationPath = Path.Combine("D:\\photos", Path.GetFileName(selectedImagePath));
+            File.Copy(selectedImagePath, destinationPath, true);
+            cmd.Parameters.AddWithValue("@ImagePath", destinationPath);
             cmd.ExecuteNonQuery();
+
             ClearTextBoxes();
             LoadCategories();
             MessageBox.Show("Item Added Succesfully");
@@ -221,7 +252,23 @@ namespace InventoryManagement
             txtCost.Clear();
             txtDescription.Clear();
             txtSerialNumber.Clear();
+            pbItemPic.Image = null;
+
         }
+
+        private void LoadImagesToGrid()
+        {
+            foreach (DataGridViewRow row in dgvItemDetails.Rows)
+            {
+                string imgPath = Convert.ToString(row.Cells["ImagePath"].Value);
+
+                if (File.Exists(imgPath))
+                {
+                    row.Cells["img"].Value = System.Drawing.Image.FromFile(imgPath);
+                }
+            }
+        }
+
         private void LoadCategories()
         {
             MyDb db = new MyDb();
@@ -239,7 +286,8 @@ namespace InventoryManagement
             I.DateOfPurchase,
             I.DateOfExpire,
             I.DateAdded,
-            I.Description
+            I.Description,
+            I.ImagePath
         FROM
             Items I
         INNER JOIN Categories C ON I.CategoryId = C.CategoryId
@@ -249,11 +297,29 @@ namespace InventoryManagement
                 SqlDataAdapter adapter = new SqlDataAdapter(query, db.Connection);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
+                dgvItemDetails.Columns.Clear();
+                //dgvItemDetails.Rows.Clear();
                 dgvItemDetails.DataSource = dt;
+
+                DataGridViewImageColumn imgColumn = new DataGridViewImageColumn();
+                imgColumn.HeaderText = "Item Image";
+                imgColumn.Name = "img";
+                dgvItemDetails.Columns.Add(imgColumn);
+
+                foreach (DataGridViewRow row in dgvItemDetails.Rows)
+                {
+                    string imgPath = Convert.ToString(row.Cells["ImagePath"].Value);
+
+                    if (File.Exists(imgPath))
+                    {
+                        row.Cells["img"].Value = System.Drawing.Image.FromFile(imgPath);
+                    }
+                }
             }
             dgvItemDetails.Columns["ItemCode"].HeaderText = "Item Code";
             dgvItemDetails.Columns["SerialNo"].HeaderText = "Serial No";
             dgvItemDetails.Columns["DateOfExpire"].HeaderText = "Warranty Expire Date";
+            dgvItemDetails.Columns["ImagePath"].Visible = false;
 
             dgvItemDetails.Columns["ItemCode"].DisplayIndex = 0;
             dgvItemDetails.Columns["SerialNo"].DisplayIndex = 1;
@@ -268,6 +334,7 @@ namespace InventoryManagement
             dgvItemDetails.Columns["DateOfExpire"].DisplayIndex = 10;
             dgvItemDetails.Columns["DateAdded"].DisplayIndex = 11;
             dgvItemDetails.Columns["Description"].DisplayIndex = 12;
+            dgvItemDetails.Columns["img"].DisplayIndex = 13;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -317,7 +384,7 @@ namespace InventoryManagement
                           SET ItemCode=@ItemCode,ItemName=@ItemName,CategoryId=@CategoryId, 
                               QTY=@QTY,SupplierName=@SupplierName,Cost=@Cost,DateOfPurchase=@DateOfPurchase,
                               DateAdded=@DateAdded,Description=@Description,SerialNo=@SerialNo,DateOfExpire=@DateOfExpire,
-                              LocationID=@LocationID,SubLocationID=@SubLocationID 
+                              LocationID=@LocationID,SubLocationID=@SubLocationID,ImagePath=@ImagePath
                           WHERE ItemId=@CurrentItemId";
 
                 using (SqlCommand cmd = new SqlCommand(cmdText, db.Connection))
@@ -336,6 +403,10 @@ namespace InventoryManagement
                     cmd.Parameters.AddWithValue("@SerialNo", txtSerialNumber.Text);
                     cmd.Parameters.AddWithValue("@DateOfExpire", dtpDateOfExpire.Value);
                     cmd.Parameters.AddWithValue("@CurrentItemId", Convert.ToInt32(lblItemId.Text));
+
+                    string destinationPath = Path.Combine("D:\\photos", Path.GetFileName(selectedImagePath));
+                    File.Copy(selectedImagePath, destinationPath, true);
+                    cmd.Parameters.AddWithValue("@ImagePath", destinationPath);
 
                     try
                     {
@@ -394,11 +465,34 @@ namespace InventoryManagement
 
         private void dgvItemDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //string currentItemCode = txtItemCode.Text;
-            //lblItemId.Text = GetItemIdByItemCode(currentItemCode).ToString();  
-
             btnSave.Enabled = false;
             btnUpdate.Enabled = true;
+            //string currentItemCode = txtItemCode.Text;
+            //lblItemId.Text = GetItemIdByItemCode(currentItemCode).ToString();  
+            if (e.RowIndex >= 0 && e.RowIndex < dgvItemDetails.Rows.Count)
+            {
+                DataGridViewRow row = dgvItemDetails.Rows[e.RowIndex];
+
+                // Assuming "img" is the name of the column containing the image
+                string imgPath = Convert.ToString(row.Cells["ImagePath"].Value);
+
+                if (!string.IsNullOrEmpty(imgPath) && File.Exists(imgPath))
+                {
+                    pbItemPic.Image = System.Drawing.Image.FromFile(imgPath);
+                    // Optionally, you can also display the image path or other information.
+                    // For example:
+                    // txtDescription.Text = Convert.ToString(row.Cells["Description"].Value);
+                }
+                else
+                {
+                    // Handle the case where the image path is not available or the file doesn't exist.
+                    // Display a default image or show an error message, as needed.
+                    pbItemPic.Image = null; // Set a default image or clear the PictureBox.
+                                            // Optionally, display an error message:
+                                            // MessageBox.Show("Image not found or invalid path.");
+                }
+            }
+
             {
                 //Populate Item Management Form for editing
                 int row = dgvItemDetails.CurrentRow.Index;
@@ -412,19 +506,8 @@ namespace InventoryManagement
                 dtpDateOfPurchase.Value = Convert.ToDateTime(dgvItemDetails["DateOfPurchase", row].Value);
                 lblCurrentDate.Text = Convert.ToString(dgvItemDetails["DateAdded", row].Value);
                 txtDescription.Text = Convert.ToString(dgvItemDetails["Description", row].Value);
-
-                lblItemId.Text = GetItemIdByItemCode(txtItemCode.Text).ToString();
+                lblItemId.Text = GetItemIdByItemCode(txtItemCode.Text).ToString();  
             }
-        }
-
-        private void dgvItemDetails_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btnFilterByCmb_Click(object sender, EventArgs e)
@@ -438,7 +521,7 @@ namespace InventoryManagement
             MyDb db = new MyDb();
             db.OpenConnection();
 
-            SqlCommand cmd = new SqlCommand("select ItemCode,SerialNo,ItemName,c.CategoryName,QTY,SupplierName,Cost,DateOfPurchase,DateOfExpire,DateAdded,Description from Items i inner join Categories c on i.CategoryId = c.CategoryId WHERE c.CategoryId = @categoryId", db.Connection);
+            SqlCommand cmd = new SqlCommand("SELECT ItemCode,SerialNo,ItemName,c.CategoryName,QTY,SupplierName,Cost,DateOfPurchase,DateOfExpire,DateAdded,Description FROM Items i inner join Categories c on i.CategoryId = c.CategoryId WHERE c.CategoryId = @categoryId", db.Connection);
             cmd.Parameters.AddWithValue("@categoryId", Convert.ToInt32(cmbFilter.SelectedValue));
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -590,6 +673,63 @@ namespace InventoryManagement
                     return Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
+        }
+
+        private void btnSubLocFilter_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cmbSubFilter.SelectedItem?.ToString()))
+            {
+                LoadCategories();
+                return;
+            }
+
+            MyDb db = new MyDb();
+            db.OpenConnection();
+
+            SqlCommand cmd = new SqlCommand("SELECT ItemCode,SerialNo,ItemName,sl.SubLocationName,QTY,SupplierName,Cost,DateOfPurchase,DateOfExpire,DateAdded,Description FROM Items i INNER JOIN SubLocations sl on sl.SubLocationID = i.SubLocationID WHERE sl.SubLocationID = @SubLocationID", db.Connection);
+            cmd.Parameters.AddWithValue("@SubLocationID", Convert.ToInt32(cmbSubFilter.SelectedValue));
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            dgvItemDetails.DataSource = dt;
+        }
+
+        private void btnLocFilter_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cmbLocFilter.SelectedItem?.ToString()))
+            {
+                LoadCategories();
+                return;
+            }
+
+            MyDb db = new MyDb();
+            db.OpenConnection();
+
+            SqlCommand cmd = new SqlCommand("SELECT ItemCode,SerialNo,ItemName,s.LocationName,QTY,SupplierName,Cost,DateOfPurchase,DateOfExpire,DateAdded,Description FROM Items i INNER JOIN Locations s on i.CategoryId = s.LocationID WHERE s.LocationID = @LocationID", db.Connection);
+            cmd.Parameters.AddWithValue("@LocationID", Convert.ToInt32(cmbLocFilter.SelectedValue));
+
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            dgvItemDetails.DataSource = dt;
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Image Files (*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png";
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                selectedImagePath = openFile.FileName;
+                pbItemPic.Image = System.Drawing.Image.FromFile(selectedImagePath);
+            }
+        }
+
+        private void Inventory_Load(object sender, EventArgs e)
+        {
+            LoadCategories(); // Load data to the grid
+            LoadImagesToGrid(); // Load images to the grid
         }
     }
 }
